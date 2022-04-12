@@ -3,8 +3,8 @@ import java.util.*;
 
 public class PlanGenerator {
 
-    private TreeMap<LocalDateTime, Double> prices;
-    private TreeMap<LocalDateTime, Double> sortedMap = new TreeMap<>();
+    private TreeMap<LocalDateTime, Double> pricesByTime;
+    private TreeMap<LocalDateTime, Double> pricesByPrice = new TreeMap<>();
 
     public static <K, V extends Comparable<V>> Map<K, V> sortByValues(final Map<K, V> map) {
         Comparator<K> valueComparator = new Comparator<K>() {
@@ -23,9 +23,9 @@ public class PlanGenerator {
     }
 
     public void sortMap(TreeMap prices) {
-        this.prices = prices;
+        this.pricesByTime = prices;
 
-        sortedMap = (TreeMap<LocalDateTime, Double>) sortByValues(prices);
+        pricesByPrice = (TreeMap<LocalDateTime, Double>) sortByValues(prices);
 
         Set set = prices.entrySet();
         Iterator i = set.iterator();
@@ -37,7 +37,7 @@ public class PlanGenerator {
 
         System.out.println(" ");
 
-        set = sortedMap.entrySet();
+        set = pricesByPrice.entrySet();
         i = set.iterator();
         while (i.hasNext()) {
             Map.Entry me = (Map.Entry) i.next();
@@ -47,5 +47,6 @@ public class PlanGenerator {
 
 
     }
+
 
 }
