@@ -16,7 +16,6 @@ public class CalculateChargeTime {
                     return compare;
             }
         };
-
         TreeMap<K, V> sortedByValues = new TreeMap<K, V>(valueComparator);
         sortedByValues.putAll(map);
         return sortedByValues;
