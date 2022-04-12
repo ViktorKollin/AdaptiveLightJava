@@ -1,19 +1,28 @@
+import java.time.LocalDateTime;
+
 public class Hour {
-    private int price;
+    private double price;
     private int batteryPercent;
     private boolean charge;
     private boolean LedOn;
+    private LocalDateTime localDateTime;
 
-    public Hour(int price, boolean ledOn) {
+    public Hour(double price, boolean ledOn, LocalDateTime localDateTime) {
         this.price = price;
-        LedOn = ledOn;
+        this.LedOn = ledOn;
+        this.localDateTime = localDateTime;
     }
 
-    public int getPrice() {
+
+    public void setLocalDateTime(LocalDateTime localDateTime) {
+        this.localDateTime = localDateTime;
+    }
+
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
