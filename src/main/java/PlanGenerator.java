@@ -5,6 +5,7 @@ public class PlanGenerator {
 
     private TreeMap<LocalDateTime, Double> pricesByTime;
     private TreeMap<LocalDateTime, Double> pricesByPrice = new TreeMap<>();
+    private ArrayList<Hour> list = new ArrayList();
 
     public static <K, V extends Comparable<V>> Map<K, V> sortByValues(final Map<K, V> map) {
         Comparator<K> valueComparator = new Comparator<K>() {
@@ -29,8 +30,20 @@ public class PlanGenerator {
 
         Set set = prices.entrySet();
         Iterator i = set.iterator();
+        int time = 15;
         while (i.hasNext()) {
             Map.Entry me = (Map.Entry) i.next();
+            if (time > 5 && time < 21) {
+                list.add(new Hour(Double.parseDouble(me.getValue().toString()), true, (LocalDateTime) me.getKey()));
+            } else {
+                list.add(new Hour(Double.parseDouble(me.getValue().toString()), false, (LocalDateTime) me.getKey()));
+            }
+
+            time++;
+            if (time == 24) {
+                time = 0;
+            }
+
             System.out.print(me.getKey() + ": ");
             System.out.println(me.getValue());
         }
@@ -47,6 +60,5 @@ public class PlanGenerator {
 
 
     }
-
 
 }
