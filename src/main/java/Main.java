@@ -8,6 +8,7 @@ import java.util.TreeMap;
 public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
+        System.out.println("Hello");
         EntsoeDayAhead dayAhead = new EntsoeDayAhead("10Y1001A1001A47J", ZoneId.of("Europe/Stockholm"), "6d3ed710-5fbf-4341-9535-e3fe29fc72fa");
         CalculateChargeTime chargeTime = new CalculateChargeTime();
         dayAhead.getCostForDayAhead(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));

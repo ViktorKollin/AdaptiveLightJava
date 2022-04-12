@@ -6,8 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Adaptive Light" />
+        <module name="AdaptiveLightJava" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="AdaptiveLightJava" target="9" />
+    </bytecodeTargetLevel>
   </component>
 </project>

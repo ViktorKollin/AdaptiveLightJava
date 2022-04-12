@@ -1,10 +1,12 @@
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class PlanGenerator {
 
-    private TreeMap
+
+    private ArrayList<Hour> Hours = new ArrayList<>();
 
     public static <K, V extends Comparable<V>> Map<K, V> sortByValues(final Map<K, V> map) {
         Comparator<K> valueComparator = new Comparator<K>() {
