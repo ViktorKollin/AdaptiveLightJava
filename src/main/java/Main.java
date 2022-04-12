@@ -12,6 +12,7 @@ public class Main {
         CalculateChargeTime chargeTime = new CalculateChargeTime();
         dayAhead.getCostForDayAhead(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
 
+
         //  Controller controller = new Controller(dayAhead);
         //   StoreData storeData = new StoreData();
 
