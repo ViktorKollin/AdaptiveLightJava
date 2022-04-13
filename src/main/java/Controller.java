@@ -26,7 +26,7 @@ public class Controller {
 
         if (Integer.parseInt(kl) == 15) {
             planGenerator = new PlanGenerator(getNewEntsoeRequest());
-            planGenerator.generatePlan(Integer.parseInt(batteryLevel));
+            planGenerator.generatePlan(Integer.parseInt(batteryLevel), Integer.parseInt(kl));
         }
 
         server.setMessage(batteryLevel);
@@ -46,7 +46,7 @@ public class Controller {
     public void testPlanGeneration(int i) {
 
         planGenerator = new PlanGenerator(getNewEntsoeRequest());
-        planGenerator.generatePlan(i);
+        planGenerator.generatePlan(i, 15);
     }
 
 

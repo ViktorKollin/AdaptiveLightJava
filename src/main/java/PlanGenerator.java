@@ -7,6 +7,7 @@ public class PlanGenerator {
     //private TreeMap<LocalDateTime, Double> pricesByPrice = new TreeMap<>();
     private ArrayList<Hour> dailyPlan = new ArrayList();
     private ArrayList<Hour> pricesByPrice = new ArrayList();
+    private int iteration = 0;
 
     public PlanGenerator(TreeMap<LocalDateTime, Double> pricesByTime) {
         this.prices = pricesByTime;
@@ -48,9 +49,9 @@ public class PlanGenerator {
         return pricesByPrice;
     }
 
-    public void generatePlan(int battery) {
+    public void generatePlan(int battery, int currentHour) {
 
-        int chargingHours = ((100 - battery) * 8) / 100;
+        int chargingHours = (((100 - battery) * 8) / 100) + 1;
         putInArraylist(sortMap(prices));
 
 
@@ -61,9 +62,8 @@ public class PlanGenerator {
 
         while (i.hasNext()) {
             Map.Entry me = (Map.Entry) i.next();
-            if (time == 15) {
-                dailyPlan.add(new Hour(Double.parseDouble(me.getValue().toString()), battery, true, (LocalDateTime) me.getKey()));
-            } else if (time >= 5 && time < 21) {
+
+            if (time >= 5 && time < 21) {
                 dailyPlan.add(new Hour(Double.parseDouble(me.getValue().toString()), true, (LocalDateTime) me.getKey()));
             } else {
                 dailyPlan.add(new Hour(Double.parseDouble(me.getValue().toString()), false, (LocalDateTime) me.getKey()));
@@ -87,50 +87,62 @@ public class PlanGenerator {
 
 
         for (int j = 0; j < dailyPlan.size(); j++) {
-            System.out.println(dailyPlan.get(j).getLocalDateTime() + " Charge status " + dailyPlan.get(j).isCharge() + " Price " + dailyPlan.get(j).getPrice());
+            System.out.println(dailyPlan.get(j).getLocalDateTime() + " Charge status " + dailyPlan.get(j).isCharge() + " Price " + dailyPlan.get(j).getPrice() + " Light On: " + dailyPlan.get(j).isLedOn());
         }
-        System.out.println(dailyPlan.get(2).getLocalDateTime().getHour());
+        System.out.println(" ");
+        checkPlan(15, battery);
 
+        for (int j = 0; j < dailyPlan.size(); j++) {
+            System.out.println(dailyPlan.get(j).getLocalDateTime() + " Charge status: " + dailyPlan.get(j).isCharge() + " Price: " + dailyPlan.get(j).getPrice() + " Battery: " + dailyPlan.get(j).getBatteryPercent());
+        }
 
     }
 
     private boolean checkPlan(int currentHour, int battery) {
         int batteryNow = battery;
-        //BLir fel om kl inte är 15
-        //Tror jag löst det
+        System.out.println(iteration++);
+        if (iteration == 20) {
+            System.exit(0);
+        }
         int index = 0;
+
         for (int i = 0; i < 24; i++) {
             if (currentHour == dailyPlan.get(i).getLocalDateTime().getHour()) {
                 index = i;
             }
         }
+        dailyPlan.get(index).setBatteryPercent(battery);
 
-        for (int i = index; i < dailyPlan.size(); i++) {
-            if (i == index) {
-                dailyPlan.get(i).setBatteryPercent(battery);
+        for (int i = index; i < dailyPlan.size() - 1; i++) {
+
+            if (dailyPlan.get(i).isCharge()) {
+                batteryNow += 13;
+                dailyPlan.get(i + 1).setBatteryPercent(batteryNow);
+            } else if (dailyPlan.get(i).isLedOn()) {
+                batteryNow -= 4;
+                dailyPlan.get(i + 1).setBatteryPercent(batteryNow);
             } else {
-                if (dailyPlan.get(i).isCharge()) {
-                    batteryNow += 13;
-                    dailyPlan.get(i).setBatteryPercent(batteryNow);
-                } else if (dailyPlan.get(i).isLedOn()) {
-                    batteryNow = -4;
-                    dailyPlan.get(i).setBatteryPercent(batteryNow);
-                }
-
+                dailyPlan.get(i + 1).setBatteryPercent(batteryNow);
             }
+
+
             if (batteryNow <= 20) {
-                updatePlan(currentHour, i, battery);
+                updatePlan(index, i, battery, currentHour);
                 break;
             }
 
         }
+
+
         return true;
     }
 
-    public void updatePlan(int currentHour, int drainIndex, int battery) {
-        // Kan bli LOOp här TÄNK PÅ DET IMORGON
-        // KAN lösas om man kollar om kl är mer än 5 men mindre än 21
-        // ELler om man undersöker att den borttagna tiden inte är i intervallet
+    public void updatePlan(int indexOfcurrentTIme, int drainIndex, int battery, int currentHour) {
+        for (int j = 0; j < dailyPlan.size(); j++) {
+            System.out.println(dailyPlan.get(j).getLocalDateTime() + " Charge status: " + dailyPlan.get(j).isCharge() + " Price: " + dailyPlan.get(j).getPrice() + " Battery: " + dailyPlan.get(j).getBatteryPercent());
+        }
+        System.out.println("---------------------------------------------------------------------------------------------------------");
+
 
         double mostExpensiveHour = Integer.MIN_VALUE;
         int index = 0;
@@ -152,9 +164,7 @@ public class PlanGenerator {
         for (int i = 0; i < dailyPlan.size(); i++) {
             Hour tempHour = dailyPlan.get(i);
 
-            int hour = tempHour.getLocalDateTime().getHour();
-
-            if (hour >= currentHour && i < drainIndex && !tempHour.isCharge()) {
+            if (i >= indexOfcurrentTIme && i <= drainIndex && !tempHour.isCharge()) {
                 if (dailyPlan.get(i).getPrice() < chepestHour) {
                     chepestHour = dailyPlan.get(i).getPrice();
                     index = i;
