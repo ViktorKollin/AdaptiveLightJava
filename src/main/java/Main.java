@@ -12,11 +12,10 @@ public class Main {
         //CalculateChargeTime chargeTime = new CalculateChargeTime();
         TreeMap<LocalDateTime, Double> prices = dayAhead.getCostForDayAhead(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
 
-        PlanGenerator planGenerator = new PlanGenerator();
 
-        planGenerator.sortMap(prices);
+        Controller controller = new Controller(dayAhead);
+        controller.testPlanGeneration(30);
 
-        //  Controller controller = new Controller(dayAhead);
         //   StoreData storeData = new StoreData();
 
         //   EntsoeActualGenerationType generationType = new EntsoeActualGenerationType("6d3ed710-5fbf-4341-9535-e3fe29fc72fa");

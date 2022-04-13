@@ -1,9 +1,11 @@
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.TreeMap;
 
 public class Controller {
     private AdaptiveLightServer server;
     private EntsoeDayAhead entsoeDayAhead;
+    private PlanGenerator planGenerator;
 
     public Controller(EntsoeDayAhead entsoeDayAhead) {
         this.entsoeDayAhead = entsoeDayAhead;
@@ -23,21 +25,28 @@ public class Controller {
 
 
         if (Integer.parseInt(kl) == 15) {
-            getNewEntsoeRequest();
+            planGenerator = new PlanGenerator(getNewEntsoeRequest());
+            planGenerator.generatePlan(Integer.parseInt(batteryLevel));
         }
 
         server.setMessage(batteryLevel);
 
     }
 
-    public void getNewEntsoeRequest() {
-        entsoeDayAhead.getCostForDayAhead(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+    public TreeMap<LocalDateTime, Double> getNewEntsoeRequest() {
+        return entsoeDayAhead.getCostForDayAhead(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
 
     }
 
     public void generatePlant() {
 
 
+    }
+
+    public void testPlanGeneration(int i) {
+
+        planGenerator = new PlanGenerator(getNewEntsoeRequest());
+        planGenerator.generatePlan(i);
     }
 
 
