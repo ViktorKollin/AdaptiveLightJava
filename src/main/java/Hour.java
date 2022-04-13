@@ -7,6 +7,18 @@ public class Hour {
     private boolean LedOn;
     private LocalDateTime localDateTime;
 
+    public Hour(double price, int batteryPercent, boolean ledOn, LocalDateTime localDateTime) {
+        this.price = price;
+        this.batteryPercent = batteryPercent;
+        LedOn = ledOn;
+        this.localDateTime = localDateTime;
+    }
+
+    public Hour(double price, LocalDateTime localDateTime) {
+        this.price = price;
+        this.localDateTime = localDateTime;
+    }
+
     public Hour(double price, boolean ledOn, LocalDateTime localDateTime) {
         this.price = price;
         this.LedOn = ledOn;
@@ -16,6 +28,10 @@ public class Hour {
 
     public void setLocalDateTime(LocalDateTime localDateTime) {
         this.localDateTime = localDateTime;
+    }
+
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
     }
 
     public double getPrice() {
