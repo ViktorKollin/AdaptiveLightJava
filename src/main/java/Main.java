@@ -23,7 +23,7 @@ public class Main {
 
 
         Controller controller = new Controller(dayAhead);
-        controller.testPlanGeneration(30);
+        controller.testPlanGeneration(24,15,false);
 
         //   StoreData storeData = new StoreData();
 

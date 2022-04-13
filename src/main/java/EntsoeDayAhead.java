@@ -43,8 +43,8 @@ public class EntsoeDayAhead {
 
         ZonedDateTime timeLocal = time.atZone(TimeUtils.UTC).withZoneSameInstant(timezone);
         //OBS Tillfällig
-        final LocalDateTime dayStart = timeLocal.truncatedTo(ChronoUnit.DAYS).minusDays(1).toLocalDateTime();
-        //   final LocalDateTime dayStart = timeLocal.truncatedTo(ChronoUnit.DAYS).plusHours(15).toLocalDateTime();
+       // final LocalDateTime dayStart = timeLocal.truncatedTo(ChronoUnit.DAYS).minusDays(1).toLocalDateTime();
+           final LocalDateTime dayStart = timeLocal.truncatedTo(ChronoUnit.DAYS).plusHours(15).toLocalDateTime();
         final LocalDateTime dayEnd = timeLocal.truncatedTo(ChronoUnit.DAYS).plus(1, ChronoUnit.DAYS).toLocalDateTime();
 
         getCostFromEntsoe(dayStart, dayEnd);
