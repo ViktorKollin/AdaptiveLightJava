@@ -90,18 +90,13 @@ public class PlanGenerator {
         }
 
         /////////////// PRINTS FIRST PLAN ///////////////
-        for (int j = 0; j < dailyPlan.size(); j++) {
-            System.out.println(dailyPlan.get(j).getLocalDateTime() + "| Chrg: " + dailyPlan.get(j).isCharge() + "| Price " + dailyPlan.get(j).getPrice() + "| LED: " + dailyPlan.get(j).isLedOn());
-        }
-        System.out.println(" ");
+        printPlan();
 
         // First Plan is checked. This is done recursively until optimum plan is found.
         checkPlan(currentHour, battery);
 
         /////// PRINTS FINAL PLAN AFTER RECURSION ENDS /////////////////
-        for (int j = 0; j < dailyPlan.size(); j++) {
-            System.out.println(dailyPlan.get(j).getLocalDateTime() + " | Chrg: " + dailyPlan.get(j).isCharge() + " | Price: " + dailyPlan.get(j).getPrice() + " | Batt: " + dailyPlan.get(j).getBatteryPercent());
-        }
+        printPlan();
 
     }
     /// Checks if current dailyPlan is possible to use. Runs recursively together with updatePlan() until working plan is found
@@ -158,20 +153,7 @@ public class PlanGenerator {
     public void updatePlan(int indexOfcurrentTIme, int drainIndex, int battery, int currentHour) {
 
         ////////// PRINT ////////////
-        for (int j = 0; j < dailyPlan.size(); j++) {
-
-            Hour tempHour = dailyPlan.get(j);
-            String chargeStr = "-";
-            String ledStr = "-";
-                    if(tempHour.isCharge()){
-                        chargeStr = "X";
-                    }if(tempHour.isLedOn()){
-                ledStr = "X";
-            }
-            System.out.println(tempHour.getLocalDateTime()+ " | LED: " + ledStr+ " | Batt: " + tempHour.getBatteryPercent() + " | Chrg: " + chargeStr + " | Price: " + tempHour.getPrice() );
-        }
-        System.out.println("---------------------------------------------------------------------------------------------------------");
-
+        printPlan();
         // Finds most expensive charge-hour after drain-time and removes the charge-status
         double mostExpensiveHour = Integer.MIN_VALUE;
         int index = 0;
@@ -204,8 +186,23 @@ public class PlanGenerator {
         dailyPlan.get(index).setCharge(true);
 
         checkPlan(currentHour, battery);
+    }
+    public void printPlan(){
+        for (int j = 0; j < dailyPlan.size(); j++) {
 
+            Hour tempHour = dailyPlan.get(j);
+            String chargeStr = "-";
+            String ledStr = "-";
+            if(tempHour.isCharge()){
+                chargeStr = "X";
+            }if(tempHour.isLedOn()){
+                ledStr = "X";
+            }
+            System.out.println(tempHour.getLocalDateTime()+ " | LED: " + ledStr+ " | Batt: " + tempHour.getBatteryPercent() + " | Chrg: " + chargeStr + " | Price: " + tempHour.getPrice() );
+        }
+        System.out.println("---------------------------------------------------------------------------------------------------------");
 
     }
+
 
 }

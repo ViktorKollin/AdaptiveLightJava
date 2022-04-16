@@ -6,6 +6,14 @@ public class Hour {
     private boolean charge;
     private boolean LedOn;
     private LocalDateTime localDateTime;
+    private int ppfdSun;
+    private int hourOfDay;
+    private double dliReached = 0;
+
+    public Hour(int ppfdSun, int hourOfDay) {
+        this.ppfdSun = ppfdSun;
+        this.hourOfDay = hourOfDay;
+    }
 
     public Hour(double price, int batteryPercent, boolean ledOn, LocalDateTime localDateTime) {
         this.price = price;
@@ -17,6 +25,14 @@ public class Hour {
     public Hour(double price, LocalDateTime localDateTime) {
         this.price = price;
         this.localDateTime = localDateTime;
+    }
+
+    public double getDliReached() {
+        return dliReached;
+    }
+
+    public void setDliReached(double dliReached) {
+        this.dliReached = dliReached;
     }
 
     public Hour(double price, boolean ledOn, LocalDateTime localDateTime) {
@@ -67,4 +83,19 @@ public class Hour {
     }
 
 
+    public int getPpfdSun() {
+        return ppfdSun;
+    }
+
+    public void setPpfdSun(int ppfdSun) {
+        this.ppfdSun = ppfdSun;
+    }
+
+    public int getHourOfDay() {
+        return hourOfDay;
+    }
+
+    public void setHourOfDay(int hourOfDay) {
+        this.hourOfDay = hourOfDay;
+    }
 }
