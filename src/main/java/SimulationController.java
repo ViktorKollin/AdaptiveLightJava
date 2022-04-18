@@ -1,8 +1,12 @@
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SimulationController {
     private PlanGenerator planGenerator;
+    private EntsoeDayAhead entsoeDayAhead;
     private ArrayList<List<Hour>> days = new ArrayList<>();
     private double dliGoal = 12;
     private final double ppdfToDli = 0.0036;
@@ -15,6 +19,15 @@ public class SimulationController {
             12,80,506,585,573,530,486,305,154,66,8,35,255,446,574,483,515,582,380,498,195,19,90,122,
             186,313,479,200,204,228,228,118,24,96,190,316,358,472,317,286,347,256,133,25,52,120,178,
             346,546,186,196,225,223,133,34};
+/*
+    LocalDateTime daySimulation = LocalDateTime.of(2021,12,1,00,00);
+    ZonedDateTime timeLocalSimulation = daySimulation.atZone(TimeUtils.UTC).withZoneSameInstant(timezone);
+    LocalDateTime dayStartSimulation = timeLocalSimulation.truncatedTo(ChronoUnit.DAYS).toLocalDateTime();
+    LocalDateTime dayEndSimulation = timeLocalSimulation.truncatedTo(ChronoUnit.DAYS).plusDays(1).toLocalDateTime();
+*/
+    public SimulationController(EntsoeDayAhead entsoeDayAhead) {
+        this.entsoeDayAhead = entsoeDayAhead;
+    }
 
     public ArrayList<List<Hour>> getDays() {
         return days;
@@ -68,6 +81,21 @@ public class SimulationController {
 
 
             }
+
+        }
+
+    }
+
+    public void runSimulation(){
+        /*
+        PlanGenerator: ta en DateTime parameter + decoupla entsoe från controller
+        SimulationController:
+            gå genom days-listan och sätt batterinivå beroende på ledOn och Charge On.
+            request plan för varje timme. -> sätt chargeOn i "days" beroende på boolean[] retunt value.
+
+         */
+
+        for(int i = 0 ; i<14;i++){
 
         }
 

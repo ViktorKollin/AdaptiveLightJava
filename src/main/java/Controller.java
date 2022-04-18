@@ -45,10 +45,6 @@ public class Controller {
 
     }
 
-    public void generatePlant() {
-
-
-    }
 
     public void testPlanGeneration(int batteryPercentage,int currentHour,boolean dli) {
 
