@@ -6,11 +6,10 @@ public class Controller {
     private AdaptiveLightServer server;
     private EntsoeDayAhead entsoeDayAhead;
     private PlanGenerator planGenerator;
-    private double dliGoal;
 
     public Controller(EntsoeDayAhead entsoeDayAhead) {
         this.entsoeDayAhead = entsoeDayAhead;
-
+        planGenerator = new PlanGenerator(entsoeDayAhead);
     }
 
     public void setServer(AdaptiveLightServer server) {
@@ -21,19 +20,13 @@ public class Controller {
         String[] strArr = message.split("_", 3);
 
         String kl = strArr[0];
-        String dliReachedStr = strArr[1];
+        String dliGoal = strArr[1];
         String batteryLevel = strArr[2];
-
-        boolean dli_reached = false;
-
-        if (Double.parseDouble(dliReachedStr) >= dliGoal){
-            dli_reached = true;
-        }
 
 
         if (Integer.parseInt(kl) == 15) {
             planGenerator = new PlanGenerator(getNewEntsoeRequest());
-            planGenerator.generatePlan(Integer.parseInt(batteryLevel), Integer.parseInt(kl),dli_reached);
+            //  planGenerator.generatePlan(Integer.parseInt(batteryLevel), Integer.parseInt(kl));
         }
 
         server.setMessage(batteryLevel);
@@ -46,10 +39,10 @@ public class Controller {
     }
 
 
-    public void testPlanGeneration(int batteryPercentage,int currentHour,boolean dli) {
+    public void testPlanGeneration(int i, int currentHour) {
 
         planGenerator = new PlanGenerator(getNewEntsoeRequest());
-        planGenerator.generatePlan(batteryPercentage, currentHour,dli);
+        // planGenerator.generatePlan(i, currentHour);
     }
 
 
