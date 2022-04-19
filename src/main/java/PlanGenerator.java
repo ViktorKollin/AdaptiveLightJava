@@ -62,8 +62,6 @@ public class PlanGenerator {
         dailyPlan.clear();
         pricesByPrice.clear();
         dailyPlanExist = true;
-
-        System.out.println(currentHour);
         if (currentHour == 15) {
             prices = entsoeDayAhead.getCostForDayAhead(date);
             System.out.println("New Plan");
@@ -124,12 +122,12 @@ public class PlanGenerator {
 
     /// Checks if current dailyPlan is possible to use. Runs recursively together with updatePlan() until working plan is found
     public boolean checkPlan(int currentHour, int battery) {
-
         int batteryNow = battery;
         //// Debug print to not get stack overflow when endless loop
-        System.out.println(iteration++);
+        //System.out.println(iteration++);
+        iteration++;
 
-        if (iteration == 500) {
+        if (iteration == 120) {
             System.exit(0);
         }
 
@@ -230,8 +228,6 @@ public class PlanGenerator {
     }
 
     public int getBatteryPercent(LocalDateTime time) {
-        // System.out.println(time.getHour() +" " + time.getDayOfMonth());
-        //System.out.println("----------------------");
         for (int i = 0; i < dailyPlan.size(); i++) {
             LocalDateTime tempTime = dailyPlan.get(i).getLocalDateTime();
             //  System.out.println(tempTime.getHour() + " " +tempTime.getDayOfMonth() );

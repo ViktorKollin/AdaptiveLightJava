@@ -8,7 +8,7 @@ public class Main {
         SimulationController sim = new SimulationController(dayAhead);
         sim.populateDays();
         sim.setPpfdAndLed();
-        sim.printDays();
+        //sim.printDays();
         sim.runSimulation();
 
         //CalculateChargeTime chargeTime = new CalculateChargeTime();

@@ -84,7 +84,7 @@ public class SimulationController {
     public void runSimulation() {
         boolean start = true;
         boolean start2 = false;
-        LocalDateTime daySimulation = LocalDateTime.of(2022, 02, 14, 00, 00);
+        LocalDateTime daySimulation = LocalDateTime.of(2022, 02, 15, 00, 00);
 
 
 
@@ -104,7 +104,6 @@ public class SimulationController {
 
 
             for (int hour = 0; hour < 24; hour++) {
-                //    System.out.println(daySimulation.getHour());
                 Hour tempHour = days.get(i).get(hour);
 
                 if (i == 0 && hour == 15) {
@@ -117,41 +116,11 @@ public class SimulationController {
                         start = false;
                         // all other days
                     } else {
-                        System.out.println(daySimulation.getDayOfMonth());
+                        //System.out.println(daySimulation.getDayOfMonth());
                         planGenerator.generatePlan(planGenerator.getBatteryPercent(daySimulation), tempHour.getHourOfDay(), (tempHour.getDliReached() > dliGoal), daySimulation);
 
                     }
                 }
-
-
-
-
-
-        /*
-                //makes a new plan every day at 15
-                if (tempHour.getHourOfDay() == 15) {
-                    //first day
-                    if (start) {
-                        planGenerator.generatePlan(60, tempHour.getHourOfDay(), (tempHour.getDliReached() > dliGoal), daySimulation);
-                        start = false;
-                        // all other days
-                    } else {
-
-                        planGenerator.generatePlan(planGenerator.getBatteryPercent(daySimulation), tempHour.getHourOfDay(), (tempHour.getDliReached() > dliGoal), daySimulation);
-
-                    }
-                    //checks the plan every hour and updates it if something have happened
-                    //TODO Lägg till att den ska uppdatera sina LED on tider
-                }
-                /*else {
-                    if(planGenerator.isDailyPlanExist()){
-                        planGenerator.checkPlan(tempHour.getHourOfDay(), planGenerator.getBatteryPercent(daySimulation));
-                    }
-
-
-
-                }
-                 */
                 daySimulation = daySimulation.plusHours(1);
             }
 
