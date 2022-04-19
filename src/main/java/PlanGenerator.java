@@ -10,6 +10,7 @@ public class PlanGenerator {
     private int iteration = 0;
     private EntsoeDayAhead entsoeDayAhead;
     private boolean dailyPlanExist = false;
+    private final int batteryThreshhold = 10;
 
 
     public PlanGenerator(TreeMap<LocalDateTime, Double> pricesByTime) {
@@ -58,7 +59,7 @@ public class PlanGenerator {
     }
 
     // Generates the first optimal plan
-    public void generatePlan(int battery, int currentHour, boolean dli_reached, LocalDateTime date) {
+    public Hour generatePlan(int battery, int currentHour, boolean dli_reached, LocalDateTime date) {
         dailyPlan.clear();
         pricesByPrice.clear();
         dailyPlanExist = true;
@@ -113,21 +114,37 @@ public class PlanGenerator {
 
         // First Plan is checked. This is done recursively until optimum plan is found.
         checkPlan(currentHour, battery);
+        //printPlan();
+
+
+        int retIndex = 0;
+
+
+        for (int hour = 0; hour < 24; hour++) {
+            if (currentHour == dailyPlan.get(hour).getLocalDateTime().getHour()) {
+                retIndex = hour;
+            }
+        }
+
+        return dailyPlan.get(retIndex);
+
 
         /////// PRINTS FINAL PLAN AFTER RECURSION ENDS /////////////////
-        printPlan();
+
+
 
 
     }
 
-    /// Checks if current dailyPlan is possible to use. Runs recursively together with updatePlan() until working plan is found
+    /// Checks if current dailyPlan is possible to use without running out of battery
+    //  Runs recursively together with updatePlan() until a working plan is found
     public boolean checkPlan(int currentHour, int battery) {
         int batteryNow = battery;
         //// Debug print to not get stack overflow when endless loop
         //System.out.println(iteration++);
         iteration++;
 
-        if (iteration == 120) {
+        if (iteration == 400) {
             System.exit(0);
         }
 
@@ -146,8 +163,15 @@ public class PlanGenerator {
         for (int i = indexCurrHour; i < dailyPlan.size() - 1; i++) {
 
             if (dailyPlan.get(i).isCharge()) {
+
                 batteryNow += 13;
+
+                if(batteryNow > 100){
+                    batteryNow = 100;
+                }
+
                 dailyPlan.get(i + 1).setBatteryPercent(batteryNow);
+
             } else if (dailyPlan.get(i).isLedOn()) {
                 batteryNow -= 4;
                 dailyPlan.get(i + 1).setBatteryPercent(batteryNow);
@@ -155,7 +179,7 @@ public class PlanGenerator {
                 dailyPlan.get(i + 1).setBatteryPercent(batteryNow);
             }
 
-            if (batteryNow <= 20) {
+            if (batteryNow <= batteryThreshhold) {
                 updatePlan(indexCurrHour, i, battery, currentHour);
                 break;
             }
@@ -174,7 +198,7 @@ public class PlanGenerator {
     public void updatePlan(int indexOfcurrentTIme, int drainIndex, int battery, int currentHour) {
 
         ////////// PRINT ////////////
-        printPlan();
+       // printPlan();
         // Finds most expensive charge-hour after drain-time and removes the charge-status
         double mostExpensiveHour = Integer.MIN_VALUE;
         int index = 0;

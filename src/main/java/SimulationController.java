@@ -112,14 +112,17 @@ public class SimulationController {
 
                 if (start2) {
                     if (start) {
-                        planGenerator.generatePlan(60, tempHour.getHourOfDay(), (tempHour.getDliReached() > dliGoal), daySimulation);
+                       tempHour = planGenerator.generatePlan(60, tempHour.getHourOfDay(), (tempHour.getDliReached() > dliGoal), daySimulation);
                         start = false;
                         // all other days
                     } else {
                         //System.out.println(daySimulation.getDayOfMonth());
-                        planGenerator.generatePlan(planGenerator.getBatteryPercent(daySimulation), tempHour.getHourOfDay(), (tempHour.getDliReached() > dliGoal), daySimulation);
+                        tempHour = planGenerator.generatePlan(planGenerator.getBatteryPercent(daySimulation), tempHour.getHourOfDay(), (tempHour.getDliReached() > dliGoal), daySimulation);
 
                     }
+                    days.get(i).get(hour).setPrice(tempHour.getPrice());
+                    days.get(i).get(hour).setCharge(tempHour.isCharge());
+                    days.get(i).get(hour).setBatteryPercent(tempHour.getBatteryPercent());
                 }
                 daySimulation = daySimulation.plusHours(1);
             }
@@ -128,28 +131,20 @@ public class SimulationController {
         }
 
     }
-          /*
-                if (i>=0 && tempHour.getHourOfDay()>=15) {
-                    System.out.println(tempHour.getHourOfDay());
-                    System.out.println("-----------------------------------");
-                    if (start) {
-                        planGenerator.generatePlan(60, tempHour.getHourOfDay(), (tempHour.getDliReached() > dliGoal), daySimulation);
-                        start = false;
-                        // all other days
-                    } else {
-                        planGenerator.generatePlan(planGenerator.getBatteryPercent(daySimulation), tempHour.getHourOfDay(), (tempHour.getDliReached() > dliGoal), daySimulation);
 
-                    }
-                }
-   */
 
 
     public void printDays() {
+        double totPrice = 0;
+        double noBatteryPrice = 0;
+        double noBattLux = 0;
+
         for (int i = 0; i < 14; i++) {
+
 
             String dayStr = "Day: " + String.valueOf(i + 15);
             System.out.println("---------------------------------------------------------------------------------------------");
-            System.out.printf("%7s |%5s |%7s | %5s  | %8s |", "Hour", "PPFD Sun", "Led On", "DLI reached", dayStr);
+            System.out.printf("%7s |%5s |%7s | %5s  | %4s | %7s |%5s |%7s", "Hour", "PPFD Sun", "Led On", "DLI ", "Price","Charge","Battery %", dayStr);
             System.out.println();
             System.out.println("---------------------------------------------------------------------------------------------");
 
@@ -159,10 +154,29 @@ public class SimulationController {
                 String ppfdSunStr = String.valueOf(tempHour.getPpfdSun());
                 String ledOnStr = String.valueOf(tempHour.isLedOn());
                 String dliReachedStr = String.format("%02.2f", tempHour.getDliReached());
+                String priceStr = String.valueOf(tempHour.getPrice());
+                String chargeStr = String.valueOf(tempHour.isCharge());
+                String batteryStr = String.valueOf(tempHour.getBatteryPercent());
 
-                System.out.format("%5s %7s %10s %7s", hourStr, ppfdSunStr, ledOnStr, dliReachedStr);
+                System.out.format("%5s %7s %10s %7s %11s %7s %7s", hourStr, ppfdSunStr, ledOnStr, dliReachedStr,priceStr,chargeStr,batteryStr);
                 System.out.println();
+                if(tempHour.isCharge()){
+                    totPrice += tempHour.getPrice()*5;
+                }
+                if(hour>04 && hour<22){
+                    noBatteryPrice += tempHour.getPrice()*1.2;
+                }if(tempHour.isLedOn()){
+                    noBattLux += tempHour.getPrice()*1.2;
+                }
             }
         }
+        totPrice /= 1000;
+        totPrice /= 0.97;
+        noBatteryPrice /= 1000;
+        noBattLux /= 1000;
+
+        System.out.println("battery price: " +totPrice);
+        System.out.println("No battery price: "+noBatteryPrice);
+        System.out.println("No battery, smart: "+noBattLux);
     }
 }

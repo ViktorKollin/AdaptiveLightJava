@@ -8,8 +8,9 @@ public class Main {
         SimulationController sim = new SimulationController(dayAhead);
         sim.populateDays();
         sim.setPpfdAndLed();
-        //sim.printDays();
+
         sim.runSimulation();
+        sim.printDays();
 
         //CalculateChargeTime chargeTime = new CalculateChargeTime();
        /* TreeMap<LocalDateTime, Double> prices = dayAhead.getCostForDayAhead(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
