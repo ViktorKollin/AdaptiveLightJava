@@ -1,49 +1,45 @@
-/*import com.opencsv.CSVWriter;
-
-import java.io.File;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
 
 public class StoreData {
+    public void writeToCSVFile(Hour hour) throws IOException {
+        try {
+            FileWriter fstream = new FileWriter("Hourlog.csv", true);
+            BufferedWriter out = new BufferedWriter(fstream);
 
+            StringBuilder builder = new StringBuilder();
+            builder.append(hour.getLocalDateTime());
+            builder.append(",");
+            builder.append(hour.getPrice());
+            builder.append(",");
+            builder.append(hour.getBatteryPercent());
+            builder.append(",");
+            builder.append(hour.getDliReached());
+            builder.append(",");
+            if (hour.isCharge()) {
+                builder.append(1);
+            } else {
+                builder.append(0);
+            }
+            builder.append(",");
+            if (hour.isLedOn()) {
+                builder.append(1);
+            } else {
+                builder.append(0);
+            }
+            out.write(builder.toString());
+            out.newLine();
+            out.flush();
 
-    public void writeCsv(TreeMap cheapestPrices) throws IOException {
-
-
-        File file = new File("./Entsoe_Prices.csv");
-
-        FileWriter outputfile = new FileWriter(file, true);
-        CSVWriter writer = new CSVWriter(outputfile);
-
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        String formatDateTime = LocalDateTime.now().format(format);
-
-        writer.writeNext(new String[]{"Entsoe prices for date " + formatDateTime});
-
-
-        Set set = cheapestPrices.entrySet();
-        Iterator i = set.iterator();
-        while (i.hasNext()) {
-
-            Map.Entry me = (Map.Entry) i.next();
-
-            String[] data = new String[2];
-
-            data[0] = me.getKey().toString();
-            data[1] = me.getValue().toString();
-
-            writer.writeNext(data);
-
-
+            out.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
-        writer.close();
+
+
     }
+
 }
-*/
+

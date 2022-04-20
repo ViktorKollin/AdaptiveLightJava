@@ -106,7 +106,8 @@ public class EntsoeDayAhead {
                             break;
                         case "position":
                             if (startDate != null)
-                                timestamp = startDate.plusHours(Integer.parseInt(data));
+                                //TODo Måste ändras i simulering
+                                timestamp = startDate.plusHours(Integer.parseInt(data) + 1);
 
                             break;
                         case "price.amount":
@@ -119,14 +120,6 @@ public class EntsoeDayAhead {
         reader.close();
     }
 
-    public int getMaxCacheSize() {
-        return maxCacheSize;
-    }
-
-    public void setMaxCacheSize(int maxCacheSize) {
-        this.maxCacheSize = maxCacheSize;
-        if (prices.size() > maxCacheSize) prices.clear();
-    }
 
     protected TreeMap<LocalDateTime, Double> getPrices() {
         return new TreeMap<>(prices);

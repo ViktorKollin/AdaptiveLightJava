@@ -68,7 +68,7 @@ public class SimulationController {
 
                 nextHour.setDliReached(currHour.getDliReached() + (currHour.getPpfdSun() * ppdfToDli));
 
-                if (HourOfDay > 04 && HourOfDay < 22 && currHour.getDliReached() < dliGoal) {
+                if (HourOfDay > 04 && HourOfDay < 21 && currHour.getDliReached() < dliGoal) {
 
                     nextHour.setDliReached(nextHour.getDliReached() + (ppfdFromLed * ppdfToDli));
                     currHour.setLedOn(true);
@@ -116,7 +116,6 @@ public class SimulationController {
                         start = false;
                         // all other days
                     } else {
-                        //System.out.println(daySimulation.getDayOfMonth());
                         tempHour = planGenerator.generatePlan(planGenerator.getBatteryPercent(daySimulation), tempHour.getHourOfDay(), (tempHour.getDliReached() > dliGoal), daySimulation);
 
                     }
