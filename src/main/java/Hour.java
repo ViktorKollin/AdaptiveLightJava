@@ -1,6 +1,6 @@
 import java.time.LocalDateTime;
 
-public class Hour {
+public class Hour implements Comparable<Hour> {
     private double price;
     private int batteryPercent;
     private boolean charge;
@@ -9,6 +9,8 @@ public class Hour {
     private int ppfdSun;
     private int hourOfDay;
     private double dliReached = 0;
+    private int weightedCost;
+    private double environmentWeight;
     private double co2_gKWh;
 
     public Hour(LocalDateTime localDateTime, double co2_gKWh) {
@@ -41,10 +43,11 @@ public class Hour {
         this.dliReached = dliReached;
     }
 
-    public Hour(double price, boolean ledOn, LocalDateTime localDateTime) {
+    public Hour(double price, boolean ledOn, LocalDateTime localDateTime,double co2_gKWh) {
         this.price = price;
         this.LedOn = ledOn;
         this.localDateTime = localDateTime;
+        this.co2_gKWh = co2_gKWh;
     }
 
 
@@ -88,6 +91,29 @@ public class Hour {
         LedOn = ledOn;
     }
 
+    public int getWeightedCost() {
+        return weightedCost;
+    }
+
+    public void setWeightedCost(int weightedCost) {
+        this.weightedCost = weightedCost;
+    }
+
+    public double getEnvironmentWeight() {
+        return environmentWeight;
+    }
+
+    public void setEnvironmentWeight(double environmentWeight) {
+        this.environmentWeight = environmentWeight;
+    }
+
+    public double getCo2_gKWh() {
+        return co2_gKWh;
+    }
+
+    public void setCo2_gKWh(double co2_gKWh) {
+        this.co2_gKWh = co2_gKWh;
+    }
 
     public int getPpfdSun() {
         return ppfdSun;
@@ -103,5 +129,10 @@ public class Hour {
 
     public void setHourOfDay(int hourOfDay) {
         this.hourOfDay = hourOfDay;
+    }
+
+    @Override
+    public int compareTo(Hour o) {
+        return 0;
     }
 }

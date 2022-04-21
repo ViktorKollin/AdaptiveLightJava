@@ -15,11 +15,12 @@ public class Co2IntensityCalculator {
     private static final String[] countryCodesArr = {};
 
     public void populateIntensityArr(LocalDateTime time){
+
         TreeMap<LocalDateTime,Double> map = //get first map from entsoe. With time?;
 
         productionMwArr = new int[map.size][countryCodesArr.length];
 
-        for(int i = 0; i< countryCodesArr.length; i++){
+        for(int i = 0; i< countryCodesArr.length - 1; i++){
 
 
             // loop through map and populate productionMwArr
@@ -28,8 +29,35 @@ public class Co2IntensityCalculator {
             }
             map = // get next country.
         }
+
+        productionMwArr[countryCodesArr.length-1] = getSwedenNetGeneration();
     }
-    public void getSwedenData(){
+    public int[] getSwedenNetGeneration(){
+        TreeMap<LocalDateTime,Double> map = //get first map from entsoe. sweden generation
+        int [] sweGeneration;
+
+        for(int hour = 0;hour< map.size;hour++){
+            sweGeneration[hour] = map.getInOrder;
+        }
+
+        map = // get first country map
+
+        int [] sweTotalExport = new int[map.size()];
+        for(int i = 0; i< countryCodesArr.length - 1; i++){
+
+            // loop through map and populate productionMwArr
+            for(int hour = 0;hour< map.size;hour++){
+                sweTotalExport[hour] += map.getInOrder;
+            }
+            map = // get next country.
+        }
+
+        int[] sweNetGeneration = new int[map.size()];
+        for(int i = 0 ; i<sweNetGeneration.length;i++){
+            sweNetGeneration[i] = sweGeneration[i]-sweTotalExport[i];
+        }
+        return sweNetGeneration;
+
 
     }
     public ArrayList<Hour> calculateCo2Intensity(LocalDateTime time){

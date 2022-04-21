@@ -1,7 +1,7 @@
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class PlanGenerator {
+public class PlanGeneratorTest {
 
 
     private TreeMap<LocalDateTime, Double> prices;
@@ -17,7 +17,7 @@ public class PlanGenerator {
     private Co2IntensityCalculator co2calculator;
 
 
-    public PlanGenerator(EntsoeDayAhead entsoeDayAhead) {
+    public PlanGeneratorTest(EntsoeDayAhead entsoeDayAhead) {
         this.entsoeDayAhead = entsoeDayAhead;
         co2calculator = new Co2IntensityCalculator();
     }
@@ -63,6 +63,12 @@ public class PlanGenerator {
         }
         return pricesByPrice;
     }
+    public ArrayList<Hour> calculateWeightedCost(double environmentWeight){
+        ArrayList<Hour> weightedList = new ArrayList<>();
+        for(int i = 0; i<co2IntensityList.size();i++){
+
+        }
+    }
 
     // Generates the first optimal plan
     public Hour generatePlan(int battery, int currentHour, boolean dli_reached, LocalDateTime date) {
@@ -83,21 +89,23 @@ public class PlanGenerator {
         int chargingHours = (((100 - battery) * 8) / 100) + 1;
 
 
-        putInArraylist(sortMap(prices));
+      //  putInArraylist(sortMap(prices));
 
 
         Set set = prices.entrySet();
         Iterator i = set.iterator();
         int time = 15;
 
-
+        int index = 0;
         // Populates dailyPlan list with Hour-objects and gives them price and LedOn status.
         while (i.hasNext()) {
             Map.Entry me = (Map.Entry) i.next();
+
+
             //System.out.println(me.getKey()+" "+ me.getValue());
 
             if (time >= 5 && time < 21 && !dli_reached) {
-                dailyPlan.add(new Hour(Double.parseDouble(me.getValue().toString()), true, (LocalDateTime) me.getKey()));
+                dailyPlan.add(new Hour(Double.parseDouble(me.getValue().toString()), true, (LocalDateTime) me.getKey()),co2IntensityList.get(index).getCo2_gKWh());
             } else {
                 dailyPlan.add(new Hour(Double.parseDouble(me.getValue().toString()), false, (LocalDateTime) me.getKey()));
             }
