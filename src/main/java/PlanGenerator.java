@@ -145,12 +145,15 @@ public class PlanGenerator {
         int batteryNow = battery;
         //// Debug print to not get stack overflow when endless loop
         //System.out.println(iteration++);
+        /*
         iteration++;
 
         if (iteration == 400) {
             System.exit(0);
         }
 
+
+         */
 
         int indexCurrHour = 0;
         // finds indexCurrHour of hour that matches current hour.

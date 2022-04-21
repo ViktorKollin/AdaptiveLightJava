@@ -1,7 +1,9 @@
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 public class Main {
 
@@ -26,19 +28,21 @@ public class Main {
         }
 
 */
-        View view = new View();
-        Controller controller = new Controller(dayAhead, view);
+        //View view = new View();
+        //Controller controller = new Controller(dayAhead, view);
 
-        StoreData storeData = new StoreData();
-        Hour hour = new Hour(12, true, LocalDateTime.now().truncatedTo(ChronoUnit.HOURS));
-        hour.setCharge(true);
-        hour.setBatteryPercent(43);
-        hour.setDliReached(10);
-        storeData.writeToCSVFile(hour);
+        //AdaptiveLightServer server = new AdaptiveLightServer(5013, controller);
+        // EntsoeTotalGeneration totalGeneration = new EntsoeTotalGeneration("6d3ed710-5fbf-4341-9535-e3fe29fc72fa");
+        //TreeMap treeMap =  totalGeneration.getTotalGeneration("10YSE-1--------K");
+        EntsoeTotalCommercialSchedules commercialSchedules = new EntsoeTotalCommercialSchedules("6d3ed710-5fbf-4341-9535-e3fe29fc72fa");
+        TreeMap treeMap = commercialSchedules.getTotalGeneration("10YSE-1--------K", "10YNO-0--------C");
 
-        AdaptiveLightServer server = new AdaptiveLightServer(5013, controller);
-
-
+        Set set = treeMap.entrySet();
+        Iterator i = set.iterator();
+        while (i.hasNext()) {
+            Map.Entry me = (Map.Entry) i.next();
+            System.out.println(me.getKey() + " " + me.getValue());
+        }
         //controller.testPlanGeneration(24,16,false);
 
         //   StoreData storeData = new StoreData();
