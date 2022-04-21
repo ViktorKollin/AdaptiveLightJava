@@ -5,7 +5,7 @@ import java.net.Socket;
 public class AdaptiveLightServer extends Thread {
     private final ServerSocket serverSocket;
     private String message;
-    private String returnMessage;
+    private String returnMessage = "hej från server";
     private Controller controller;
 
     public AdaptiveLightServer(int port, Controller controller) throws IOException {
@@ -65,12 +65,10 @@ public class AdaptiveLightServer extends Thread {
                     String tempmessage = br.readLine();
                     if (tempmessage != null) {
                         message = tempmessage;
+                        System.out.println(message);
                         controller.newMessage(message);
 
                     }
-
-
-                    sleep(100);
                 }
 
             } catch (IOException | InterruptedException e) {

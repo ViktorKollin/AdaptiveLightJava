@@ -116,7 +116,6 @@ public class SimulationController {
                         start = false;
                         // all other days
                     } else {
-                        //System.out.println(daySimulation.getDayOfMonth());
                         tempHour = planGenerator.generatePlan(planGenerator.getBatteryPercent(daySimulation), tempHour.getHourOfDay(), (tempHour.getDliReached() > dliGoal), daySimulation);
 
                     }

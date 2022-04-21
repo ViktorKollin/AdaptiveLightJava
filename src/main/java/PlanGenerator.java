@@ -3,6 +3,7 @@ import java.util.*;
 
 public class PlanGenerator {
 
+
     private TreeMap<LocalDateTime, Double> prices;
     //private TreeMap<LocalDateTime, Double> pricesByPrice = new TreeMap<>();
     private ArrayList<Hour> dailyPlan = new ArrayList();
@@ -10,7 +11,7 @@ public class PlanGenerator {
     private int iteration = 0;
     private EntsoeDayAhead entsoeDayAhead;
     private boolean dailyPlanExist = false;
-    private final int batteryThreshhold = 10;
+    private final int batteryThreshhold = 20;
 
 
 
@@ -20,6 +21,10 @@ public class PlanGenerator {
 
     public PlanGenerator(EntsoeDayAhead entsoeDayAhead) {
         this.entsoeDayAhead = entsoeDayAhead;
+    }
+
+    public void setPrices(TreeMap<LocalDateTime, Double> prices) {
+        this.prices = prices;
     }
 
     public static <K, V extends Comparable<V>> Map<K, V> sortByValues(final Map<K, V> map) {
@@ -64,6 +69,7 @@ public class PlanGenerator {
         dailyPlan.clear();
         pricesByPrice.clear();
         dailyPlanExist = true;
+
         if (currentHour == 15) {
             prices = entsoeDayAhead.getCostForDayAhead(date);
             System.out.println("New Plan");
@@ -115,7 +121,6 @@ public class PlanGenerator {
 
         // First Plan is checked. This is done recursively until optimum plan is found.
         checkPlan(currentHour, battery);
-        //printPlan();
 
 
         int retIndex = 0;
@@ -126,13 +131,11 @@ public class PlanGenerator {
                 retIndex = hour;
             }
         }
-
-        return dailyPlan.get(retIndex);
-
-
         /////// PRINTS FINAL PLAN AFTER RECURSION ENDS /////////////////
 
+        printPlan();
 
+        return dailyPlan.get(retIndex);
 
 
     }
@@ -143,12 +146,15 @@ public class PlanGenerator {
         int batteryNow = battery;
         //// Debug print to not get stack overflow when endless loop
         //System.out.println(iteration++);
+        /*
         iteration++;
 
         if (iteration == 400) {
             System.exit(0);
         }
 
+
+         */
 
         int indexCurrHour = 0;
         // finds indexCurrHour of hour that matches current hour.
@@ -199,7 +205,7 @@ public class PlanGenerator {
     public void updatePlan(int indexOfcurrentTIme, int drainIndex, int battery, int currentHour) {
 
         ////////// PRINT ////////////
-       // printPlan();
+        //  printPlan();
         // Finds most expensive charge-hour after drain-time and removes the charge-status
         double mostExpensiveHour = Integer.MIN_VALUE;
         int index = 0;

@@ -1,4 +1,3 @@
-
 import javax.net.ssl.HttpsURLConnection;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
@@ -10,60 +9,43 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.TreeMap;
 
-
-/**
- * Supplies day-ahead price information from the ENTSOE transparency API. The
- * data is cached.
- */
-public class EntsoeDayAhead {
-
+public class EntsoeTotalGeneration {
     private static final DateTimeFormatter DATE_FORMAT =
             DateTimeFormatter.ofPattern("yyyyMMddHHmm");
-    private final TreeMap<LocalDateTime, Double> prices = new TreeMap<>();
-    private final String areaEIC;
-    private final ZoneId timezone;
     private final String securityToken;
-    private int maxCacheSize = 5000;
+    private LocalDateTime unavailableDay = null;
+    private LocalDateTime wasUnavailableAt = LocalDateTime.MIN;
+    private TreeMap<LocalDateTime, Double> totalLoad = new TreeMap<>();
 
 
-
-    public EntsoeDayAhead(String areaEIC, ZoneId timezone, String securityToken) {
-        this.areaEIC = areaEIC;
-        this.timezone = timezone;
+    public EntsoeTotalGeneration(String securityToken) {
         this.securityToken = securityToken;
     }
 
-    public TreeMap<LocalDateTime, Double> getCostForDayAhead(LocalDateTime time) {
-        prices.clear();
-        ZonedDateTime timeLocal = time.atZone(TimeUtils.UTC).withZoneSameInstant(timezone);
-        final LocalDateTime dayStart = timeLocal.truncatedTo(ChronoUnit.DAYS).plusHours(15).toLocalDateTime();
-        final LocalDateTime dayEnd = timeLocal.truncatedTo(ChronoUnit.DAYS).plus(1, ChronoUnit.DAYS).toLocalDateTime();
 
-        getCostFromEntsoe(dayStart, dayEnd);
-        cleanTreeMap();
+    public TreeMap getTotalGeneration(String zone) {
+        LocalDateTime time = LocalDateTime.now();
 
-        return prices;
-
-    }
-
-    protected void getCostFromEntsoe(LocalDateTime start, LocalDateTime end) {
+        final LocalDateTime periodStart = time.truncatedTo(ChronoUnit.DAYS);
+        final LocalDateTime periodEnd = time.truncatedTo(ChronoUnit.DAYS).plusDays(1);
+        System.out.println(periodStart);
 
         try {
             URL url = new URL("https://transparency.entsoe.eu/api?securityToken=" +
-                    securityToken + "&documentType=A44" +
-                    "&in_Domain=" + areaEIC + "&out_Domain=" + areaEIC +
-                    "&periodStart=" + start.format(DATE_FORMAT) +
-                    "&periodEnd=" + end.format(DATE_FORMAT));
+                    securityToken + "&documentType=A71&processType=A01&in_Domain="
+                    + zone + "&periodStart=" + periodStart.format(DATE_FORMAT) +
+                    "&periodEnd=" + periodEnd.format(DATE_FORMAT));
 
             HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
             if (conn.getResponseCode() == 400) {
-                System.out.println("Server returned 400 BAD REQUEST");
+                System.out.println(("Server returned 400 BAD REQUEST."));
+                // cache error response for a certain time
+                //unavailableDay = start;
+                wasUnavailableAt = TimeUtils.now();
             } else {
                 try (InputStream input = conn.getInputStream()) {
                     loadXML(input);
@@ -71,7 +53,9 @@ public class EntsoeDayAhead {
             }
         } catch (IOException | XMLStreamException ex) {
             System.out.println("Could not fetch data.");
+
         }
+        return totalLoad;
     }
 
     private void loadXML(InputStream source) throws XMLStreamException {
@@ -106,29 +90,19 @@ public class EntsoeDayAhead {
                             break;
                         case "position":
                             if (startDate != null)
-                                //TODo Måste ändras i simulering
                                 timestamp = startDate.plusHours(Integer.parseInt(data) + 1);
 
+
                             break;
-                        case "price.amount":
-                            prices.put(timestamp, Double.parseDouble(data));
+                        case "quantity":
+                            totalLoad.put(timestamp, Double.parseDouble(data));
                             break;
                     }
                     break;
             }
         }
         reader.close();
-    }
 
-
-    protected TreeMap<LocalDateTime, Double> getPrices() {
-        return new TreeMap<>(prices);
-    }
-
-    private void cleanTreeMap() {
-        for (int i = 0; i <= 14; i++) {
-            prices.pollFirstEntry();
-        }
     }
 
 
