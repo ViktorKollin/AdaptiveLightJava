@@ -13,6 +13,7 @@ public class PlanGenerator {
     private final int batteryThreshhold = 10;
 
 
+
     public PlanGenerator(TreeMap<LocalDateTime, Double> pricesByTime) {
         this.prices = pricesByTime;
     }

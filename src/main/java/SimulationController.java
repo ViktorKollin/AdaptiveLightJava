@@ -68,7 +68,7 @@ public class SimulationController {
 
                 nextHour.setDliReached(currHour.getDliReached() + (currHour.getPpfdSun() * ppdfToDli));
 
-                if (HourOfDay > 04 && HourOfDay < 22 && currHour.getDliReached() < dliGoal) {
+                if (HourOfDay > 04 && HourOfDay < 21 && currHour.getDliReached() < dliGoal) {
 
                     nextHour.setDliReached(nextHour.getDliReached() + (ppfdFromLed * ppdfToDli));
                     currHour.setLedOn(true);
@@ -163,7 +163,7 @@ public class SimulationController {
                 if(tempHour.isCharge()){
                     totPrice += tempHour.getPrice()*5;
                 }
-                if(hour>04 && hour<22){
+                if(hour>04 && hour<21){
                     noBatteryPrice += tempHour.getPrice()*1.2;
                 }if(tempHour.isLedOn()){
                     noBattLux += tempHour.getPrice()*1.2;

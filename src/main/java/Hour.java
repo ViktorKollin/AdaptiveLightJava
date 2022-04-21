@@ -9,6 +9,12 @@ public class Hour {
     private int ppfdSun;
     private int hourOfDay;
     private double dliReached = 0;
+    private double co2_gKWh;
+
+    public Hour(LocalDateTime localDateTime, double co2_gKWh) {
+        this.localDateTime = localDateTime;
+        this.co2_gKWh = co2_gKWh;
+    }
 
     public Hour(int ppfdSun, int hourOfDay) {
         this.ppfdSun = ppfdSun;
