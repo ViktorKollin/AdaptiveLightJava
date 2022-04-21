@@ -9,12 +9,16 @@ public class Hour implements Comparable<Hour> {
     private int ppfdSun;
     private int hourOfDay;
     private double dliReached = 0;
-    private int weightedCost;
+    private double weightedCost;
     private double environmentWeight;
     private double co2_gKWh;
 
     public Hour(LocalDateTime localDateTime, double co2_gKWh) {
         this.localDateTime = localDateTime;
+        this.co2_gKWh = co2_gKWh;
+    }
+
+    public Hour(double co2_gKWh) {
         this.co2_gKWh = co2_gKWh;
     }
 
@@ -35,6 +39,9 @@ public class Hour implements Comparable<Hour> {
         this.localDateTime = localDateTime;
     }
 
+    public Hour(double parseDouble, boolean b, LocalDateTime key) {
+    }
+
     public double getDliReached() {
         return dliReached;
     }
@@ -43,11 +50,12 @@ public class Hour implements Comparable<Hour> {
         this.dliReached = dliReached;
     }
 
-    public Hour(double price, boolean ledOn, LocalDateTime localDateTime,double co2_gKWh) {
+    public Hour(double price, boolean ledOn, LocalDateTime localDateTime,double co2_gKWh,double enviroWeight) {
         this.price = price;
         this.LedOn = ledOn;
         this.localDateTime = localDateTime;
         this.co2_gKWh = co2_gKWh;
+        this.environmentWeight = enviroWeight;
     }
 
 
@@ -91,11 +99,11 @@ public class Hour implements Comparable<Hour> {
         LedOn = ledOn;
     }
 
-    public int getWeightedCost() {
+    public double getWeightedCost() {
         return weightedCost;
     }
 
-    public void setWeightedCost(int weightedCost) {
+    public void setWeightedCost(double weightedCost) {
         this.weightedCost = weightedCost;
     }
 
@@ -133,6 +141,13 @@ public class Hour implements Comparable<Hour> {
 
     @Override
     public int compareTo(Hour o) {
-        return 0;
+        if(weightedCost == o.weightedCost){
+            return 0;
+        } else if(weightedCost > o.weightedCost){
+            return 1;
+        } else {
+            return -1;
+        }
+
     }
 }

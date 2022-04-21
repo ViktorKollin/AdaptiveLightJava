@@ -3,7 +3,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SimulationController {
-    private PlanGenerator planGenerator;
+   // todo: private PlanGenerator planGenerator;
+   private PlanGeneratorTest planGenerator;
     private EntsoeDayAhead entsoeDayAhead;
     private ArrayList<List<Hour>> days = new ArrayList<>();
     private double dliGoal = 12;
@@ -20,7 +21,8 @@ public class SimulationController {
 
     public SimulationController(EntsoeDayAhead entsoeDayAhead) {
         this.entsoeDayAhead = entsoeDayAhead;
-        planGenerator = new PlanGenerator(entsoeDayAhead);
+        // todo: change to normal plangenerator.
+        planGenerator = new PlanGeneratorTest(entsoeDayAhead);
 
     }
 
@@ -87,15 +89,6 @@ public class SimulationController {
         LocalDateTime daySimulation = LocalDateTime.of(2022, 02, 15, 00, 00);
 
 
-
-        /*
-        PlanGenerator: ta en DateTime parameter + decoupla entsoe från controller
-        SimulationController:
-            gå genom days-listan och sätt batterinivå beroende på ledOn och Charge On.
-            request plan för varje timme. -> sätt chargeOn i "days" beroende på boolean[] retunt value.
-
-         */
-
         /*
         Simulates a day from 14-28 of february
 
@@ -112,12 +105,13 @@ public class SimulationController {
 
                 if (start2) {
                     if (start) {
-                       tempHour = planGenerator.generatePlan(60, tempHour.getHourOfDay(), (tempHour.getDliReached() > dliGoal), daySimulation);
+                       // todo: tempHour = planGenerator.generatePlan(60, tempHour.getHourOfDay(), (tempHour.getDliReached() > dliGoal), daySimulation);
+                        tempHour = planGenerator.generatePlan(60, tempHour.getHourOfDay(), (tempHour.getDliReached() > dliGoal), daySimulation,0.30);
                         start = false;
                         // all other days
                     } else {
-                        tempHour = planGenerator.generatePlan(planGenerator.getBatteryPercent(daySimulation), tempHour.getHourOfDay(), (tempHour.getDliReached() > dliGoal), daySimulation);
-
+                       // todo: tempHour = planGenerator.generatePlan(planGenerator.getBatteryPercent(daySimulation), tempHour.getHourOfDay(), (tempHour.getDliReached() > dliGoal), daySimulation);
+                        tempHour = planGenerator.generatePlan(planGenerator.getBatteryPercent(daySimulation), tempHour.getHourOfDay(), (tempHour.getDliReached() > dliGoal), daySimulation,0.30);
                     }
                     days.get(i).get(hour).setPrice(tempHour.getPrice());
                     days.get(i).get(hour).setCharge(tempHour.isCharge());

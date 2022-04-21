@@ -14,7 +14,7 @@ public class Co2IntensityCalculator {
     private static final int lithuaniaGco2 = 45;
     private static final int swedenGco2 = 8;
     private static final String[] countryCodesArr = {};
-
+/*
     public void populateIntensityArr(LocalDateTime time){
 
         TreeMap<LocalDateTime,Double> map = //get first map from entsoe. With time?;
@@ -85,6 +85,8 @@ public class Co2IntensityCalculator {
         }
         return returnList;
     }
+
+    */
 
 }
 

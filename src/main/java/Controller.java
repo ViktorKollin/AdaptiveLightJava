@@ -71,12 +71,12 @@ public class Controller {
 
     }
 
-
+/*
     public void testPlanGeneration(int i, int currentHour) {
 
         planGenerator = new PlanGenerator(getNewEntsoeRequest());
         // planGenerator.generatePlan(i, currentHour);
     }
-
+*/
 
 }

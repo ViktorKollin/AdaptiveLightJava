@@ -73,7 +73,7 @@ public class PlanGenerator {
 
         if (currentHour == 15) {
             prices = entsoeDayAhead.getCostForDayAhead(date);
-            co2IntensityList = co2calculator.calculateCo2Intensity(date);
+           // co2IntensityList = co2calculator.calculateCo2Intensity(date);
             System.out.println("New Plan");
 
         }

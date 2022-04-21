@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         EntsoeDayAhead dayAhead = new EntsoeDayAhead("10Y1001A1001A47J", ZoneId.of("Europe/Stockholm"), "6d3ed710-5fbf-4341-9535-e3fe29fc72fa");
-        /*
+
         SimulationController sim = new SimulationController(dayAhead);
         sim.populateDays();
         sim.setPpfdAndLed();
@@ -17,7 +17,7 @@ public class Main {
         sim.printDays();
 
 
-         */
+
         //CalculateChargeTime chargeTime = new CalculateChargeTime();
        /* TreeMap<LocalDateTime, Double> prices = dayAhead.getCostForDayAhead(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         Set set = prices.entrySet();
@@ -34,6 +34,7 @@ public class Main {
         //AdaptiveLightServer server = new AdaptiveLightServer(5013, controller);
         // EntsoeTotalGeneration totalGeneration = new EntsoeTotalGeneration("6d3ed710-5fbf-4341-9535-e3fe29fc72fa");
         //TreeMap treeMap =  totalGeneration.getTotalGeneration("10YSE-1--------K");
+        /*
         EntsoeTotalCommercialSchedules commercialSchedules = new EntsoeTotalCommercialSchedules("6d3ed710-5fbf-4341-9535-e3fe29fc72fa");
         TreeMap treeMap = commercialSchedules.getTotalGeneration("10YSE-1--------K", "10YNO-0--------C");
 
@@ -61,6 +62,6 @@ public class Main {
         // TreeMap<LocalDateTime, Double> prices = dayAhead.getPrices();
         //  storeData.writeCsv(chargeTime.calculateCheapestChargeTime(5,prices));
 
-
+*/
     }
 }
