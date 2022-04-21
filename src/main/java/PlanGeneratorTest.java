@@ -209,6 +209,7 @@ public class PlanGeneratorTest {
      */
     public void updatePlan(int indexOfcurrentTIme, int drainIndex, int battery, int currentHour) {
 
+
         ////////// PRINT ////////////
         //  printPlan();
         // Finds most expensive charge-hour after drain-time and removes the charge-status

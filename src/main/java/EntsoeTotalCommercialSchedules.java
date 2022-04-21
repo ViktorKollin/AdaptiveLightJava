@@ -29,7 +29,8 @@ public class EntsoeTotalCommercialSchedules {
 
     public TreeMap getTotalGeneration(String zone, String zone2) {
         schedule.clear();
-        LocalDateTime time = LocalDateTime.now().minusDays(1);
+        LocalDateTime time = LocalDateTime.now().minusDays(4);
+        System.out.println(time);
 
         final LocalDateTime periodStart = time.truncatedTo(ChronoUnit.DAYS);
         final LocalDateTime periodEnd = time.truncatedTo(ChronoUnit.DAYS).plusDays(1);

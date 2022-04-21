@@ -107,7 +107,7 @@ public class EntsoeDayAhead {
                         case "position":
                             if (startDate != null)
                                 //TODo Måste ändras i simulering
-                                timestamp = startDate.plusHours(Integer.parseInt(data) + 1);
+                                timestamp = startDate.plusHours(Integer.parseInt(data));
 
                             break;
                         case "price.amount":
