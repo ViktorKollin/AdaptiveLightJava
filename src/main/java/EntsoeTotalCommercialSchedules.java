@@ -28,16 +28,15 @@ public class EntsoeTotalCommercialSchedules {
 
 
     public TreeMap getTotalGeneration(String zone, String zone2) {
-        LocalDateTime time = LocalDateTime.now();
+        schedule.clear();
+        LocalDateTime time = LocalDateTime.now().minusDays(1);
 
         final LocalDateTime periodStart = time.truncatedTo(ChronoUnit.DAYS);
         final LocalDateTime periodEnd = time.truncatedTo(ChronoUnit.DAYS).plusDays(1);
-        System.out.println(periodStart);
-
         try {
             URL url = new URL("https://transparency.entsoe.eu/api?securityToken=" +
                     securityToken + "&documentType=A09&in_Domain="
-                    + zone + "&out_Domain=" + zone2 + "&contract_MarketAgreement.Type=A05&periodStart=" + periodStart.format(DATE_FORMAT) +
+                    + zone + "&out_Domain=" + zone2 + "&periodStart=" + periodStart.format(DATE_FORMAT) +
                     "&periodEnd=" + periodEnd.format(DATE_FORMAT));
 
             HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();

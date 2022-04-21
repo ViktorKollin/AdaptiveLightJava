@@ -5,8 +5,6 @@ public class PlanGenerator {
 
 
     private TreeMap<LocalDateTime, Double> prices;
-    private ArrayList<Hour> co2IntensityList;
-
     //private TreeMap<LocalDateTime, Double> pricesByPrice = new TreeMap<>();
     private ArrayList<Hour> dailyPlan = new ArrayList();
     private ArrayList<Hour> pricesByPrice = new ArrayList();
@@ -14,12 +12,14 @@ public class PlanGenerator {
     private EntsoeDayAhead entsoeDayAhead;
     private boolean dailyPlanExist = false;
     private final int batteryThreshhold = 20;
-    private Co2IntensityCalculator co2calculator;
 
+
+    public PlanGenerator(TreeMap<LocalDateTime, Double> pricesByTime) {
+        this.prices = pricesByTime;
+    }
 
     public PlanGenerator(EntsoeDayAhead entsoeDayAhead) {
         this.entsoeDayAhead = entsoeDayAhead;
-        co2calculator = new Co2IntensityCalculator();
     }
 
     public void setPrices(TreeMap<LocalDateTime, Double> prices) {
@@ -27,7 +27,6 @@ public class PlanGenerator {
     }
 
     public static <K, V extends Comparable<V>> Map<K, V> sortByValues(final Map<K, V> map) {
-
         Comparator<K> valueComparator = new Comparator<K>() {
             public int compare(K k1, K k2) {
                 int compare =
@@ -66,14 +65,12 @@ public class PlanGenerator {
 
     // Generates the first optimal plan
     public Hour generatePlan(int battery, int currentHour, boolean dli_reached, LocalDateTime date) {
-
         dailyPlan.clear();
         pricesByPrice.clear();
         dailyPlanExist = true;
 
         if (currentHour == 15) {
             prices = entsoeDayAhead.getCostForDayAhead(date);
-           // co2IntensityList = co2calculator.calculateCo2Intensity(date);
             System.out.println("New Plan");
 
         }
@@ -81,6 +78,7 @@ public class PlanGenerator {
 
         // Sets number of hours to charge based on battery%
         int chargingHours = (((100 - battery) * 8) / 100) + 1;
+
 
 
         putInArraylist(sortMap(prices));

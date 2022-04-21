@@ -1,9 +1,6 @@
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
 
 public class Main {
 
@@ -15,6 +12,27 @@ public class Main {
         sim.setPpfdAndLed();
         sim.runSimulation();
         sim.printDays();
+
+/*
+        EntsoeTotalCommercialSchedules totalCommercialSchedules = new EntsoeTotalCommercialSchedules("6d3ed710-5fbf-4341-9535-e3fe29fc72fa");
+        EntsoeTotalGeneration totalGeneration = new EntsoeTotalGeneration("6d3ed710-5fbf-4341-9535-e3fe29fc72fa");
+
+        Co2IntensityCalculator calculator = new Co2IntensityCalculator(totalCommercialSchedules, totalGeneration);
+        LocalDateTime localDateTime = LocalDateTime.now().minusDays(2);
+        System.out.println(localDateTime);
+        calculator.populateIntensityArr(localDateTime);
+
+        /*
+        EntsoeTotalCommercialSchedules commercialSchedules = new EntsoeTotalCommercialSchedules("6d3ed710-5fbf-4341-9535-e3fe29fc72fa");
+        Map map = commercialSchedules.getTotalGeneration("10YSE-1--------K","10YFI-1--------U");
+
+        Set set = map.entrySet();
+        Iterator i = set.iterator();
+        while (i.hasNext()) {
+            Map.Entry me = (Map.Entry) i.next();
+            System.out.println(me.getValue());
+        }
+
 
 
 
