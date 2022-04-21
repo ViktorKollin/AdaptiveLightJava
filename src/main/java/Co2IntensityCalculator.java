@@ -84,7 +84,6 @@ public class Co2IntensityCalculator {
             index++;
         }
 
-
         double[] sweTotalExport = new double[map.size()];
 
         for (int i = 0; i < countryCodesArr.length - 1; i++) {

@@ -7,14 +7,14 @@ public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
         EntsoeDayAhead dayAhead = new EntsoeDayAhead("10Y1001A1001A47J", ZoneId.of("Europe/Stockholm"), "6d3ed710-5fbf-4341-9535-e3fe29fc72fa");
 
-        /*
+
         SimulationController sim = new SimulationController(dayAhead);
         sim.populateDays();
         sim.setPpfdAndLed();
         sim.runSimulation();
         sim.printDays();
 
-         */
+         /*
 
         EntsoeTotalCommercialSchedules totalCommercialSchedules = new EntsoeTotalCommercialSchedules("6d3ed710-5fbf-4341-9535-e3fe29fc72fa");
         EntsoeTotalGeneration totalGeneration = new EntsoeTotalGeneration("6d3ed710-5fbf-4341-9535-e3fe29fc72fa");
@@ -23,7 +23,7 @@ public class Main {
         LocalDateTime localDateTime = LocalDateTime.now().minusDays(2);
         System.out.println(localDateTime);
         calculator.populateIntensityArr(localDateTime);
-
+        */
         /*
         EntsoeTotalCommercialSchedules commercialSchedules = new EntsoeTotalCommercialSchedules("6d3ed710-5fbf-4341-9535-e3fe29fc72fa");
         Map map = commercialSchedules.getTotalGeneration("10YSE-1--------K","10YFI-1--------U");
