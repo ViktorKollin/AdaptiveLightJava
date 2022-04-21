@@ -20,7 +20,7 @@ public class PlanGeneratorTest {
 
     public PlanGeneratorTest(EntsoeDayAhead entsoeDayAhead) {
         this.entsoeDayAhead = entsoeDayAhead;
-        co2calculator = new Co2IntensityCalculator();
+        // co2calculator = new Co2IntensityCalculator();
         //todo : change this
         co2IntensityList = new ArrayList<>();
         Random rand = new Random();
