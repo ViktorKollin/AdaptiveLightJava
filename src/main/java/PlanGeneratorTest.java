@@ -105,9 +105,9 @@ public class PlanGeneratorTest {
             //System.out.println(me.getKey()+" "+ me.getValue());
 
             if (time >= 5 && time < 21 && !dli_reached) {
-                dailyPlan.add(new Hour(Double.parseDouble(me.getValue().toString()), true, (LocalDateTime) me.getKey()),co2IntensityList.get(index).getCo2_gKWh());
+                dailyPlan.add(new Hour(Double.parseDouble(me.getValue().toString()), true, (LocalDateTime) me.getKey(),co2IntensityList.get(index).getCo2_gKWh()));
             } else {
-                dailyPlan.add(new Hour(Double.parseDouble(me.getValue().toString()), false, (LocalDateTime) me.getKey()));
+                dailyPlan.add(new Hour(Double.parseDouble(me.getValue().toString()), false, (LocalDateTime) me.getKey(),co2IntensityList.get(index).getCo2_gKWh()));
             }
 
             time++;
