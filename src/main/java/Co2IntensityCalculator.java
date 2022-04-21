@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 
 public class Co2IntensityCalculator {
+    // get test
     private int[][] productionMwArr;
     private int[] co2IntensityArr = {germanyGrCo2,norwayGrCo2,denmarkGrCo2,polandGco2,finlandGco2,lithuaniaGco2,swedenGco2};
     private static final int germanyGrCo2 = 311;
