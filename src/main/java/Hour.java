@@ -35,6 +35,9 @@ public class Hour implements Comparable<Hour> {
         this.localDateTime = localDateTime;
     }
 
+    public Hour(double parseDouble, boolean b, LocalDateTime key) {
+    }
+
     public double getDliReached() {
         return dliReached;
     }
@@ -43,7 +46,7 @@ public class Hour implements Comparable<Hour> {
         this.dliReached = dliReached;
     }
 
-    public Hour(double price, boolean ledOn, LocalDateTime localDateTime,double co2_gKWh) {
+    public Hour(double price, boolean ledOn, LocalDateTime localDateTime, double co2_gKWh) {
         this.price = price;
         this.LedOn = ledOn;
         this.localDateTime = localDateTime;

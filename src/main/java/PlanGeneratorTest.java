@@ -1,6 +1,4 @@
-import java.time.LocalDateTime;
-import java.util.*;
-
+/*
 public class PlanGeneratorTest {
 
 
@@ -167,7 +165,7 @@ public class PlanGeneratorTest {
 
 
          */
-
+/*
         int indexCurrHour = 0;
         // finds indexCurrHour of hour that matches current hour.
         for (int i = 0; i < 24; i++) {
@@ -214,6 +212,7 @@ public class PlanGeneratorTest {
      *                           exchanges it for the cheapest non-chosen charge hour before battery drain. Runs checkPlan()
      *                           afterwards to confirm.
      */
+/*
     public void updatePlan(int indexOfcurrentTIme, int drainIndex, int battery, int currentHour) {
 
         ////////// PRINT ////////////
@@ -286,3 +285,4 @@ public class PlanGeneratorTest {
         return dailyPlanExist;
     }
 }
+*/
