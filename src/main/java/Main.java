@@ -1,10 +1,22 @@
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 
 public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
+        Co2IntensityCalculator co2 = new Co2IntensityCalculator();
+        LocalDateTime time = LocalDateTime.now().minusDays(1);
+        ArrayList<Hour> printList = co2.calculateCo2Intensity(time);
+        for (Hour h:printList
+             ) {
+            System.out.println("Time: "+h.getLocalDateTime().truncatedTo(ChronoUnit.HOURS)+"Co2: "+h.getCo2_gKWh());
+
+        }
+
+        /*
         EntsoeDayAhead dayAhead = new EntsoeDayAhead("10Y1001A1001A47J", ZoneId.of("Europe/Stockholm"), "6d3ed710-5fbf-4341-9535-e3fe29fc72fa");
 
 
@@ -18,12 +30,12 @@ public class Main {
         EntsoeTotalCommercialSchedules totalCommercialSchedules = new EntsoeTotalCommercialSchedules("6d3ed710-5fbf-4341-9535-e3fe29fc72fa");
         EntsoeTotalGeneration totalGeneration = new EntsoeTotalGeneration("6d3ed710-5fbf-4341-9535-e3fe29fc72fa");
 
-        Co2IntensityCalculator calculator = new Co2IntensityCalculator(totalCommercialSchedules, totalGeneration);
+        Co2IntensityCalculator calculator = new Co2IntensityCalculator();
         LocalDateTime localDateTime = LocalDateTime.now().minusDays(2);
         System.out.println(localDateTime);
         //calculator.populateIntensityArr(localDateTime);
         //calculator.getSwedenNetGeneration(localDateTime);
-
+*/
         /*
         EntsoeTotalCommercialSchedules commercialSchedules = new EntsoeTotalCommercialSchedules("6d3ed710-5fbf-4341-9535-e3fe29fc72fa");
         Map map = commercialSchedules.getTotalGeneration("10YSE-1--------K","10YFI-1--------U");

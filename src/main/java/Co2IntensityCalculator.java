@@ -17,13 +17,15 @@ public class Co2IntensityCalculator {
     private static final int lithuaniaGco2 = 45;
     private static final int swedenGco2 = 8;
     private double[][] productionMwArr;
+    private final String tokenEntsoe = "6d3ed710-5fbf-4341-9535-e3fe29fc72fa";
     private EntsoeTotalCommercialSchedules commercialSchedules;
     private EntsoeTotalGeneration totalGeneration;
 
 
-    public Co2IntensityCalculator(EntsoeTotalCommercialSchedules commercialSchedules, EntsoeTotalGeneration totalGeneration) {
-        this.commercialSchedules = commercialSchedules;
-        this.totalGeneration = totalGeneration;
+    public Co2IntensityCalculator() {
+
+        this.commercialSchedules = new  EntsoeTotalCommercialSchedules(tokenEntsoe);
+        this.totalGeneration = new EntsoeTotalGeneration(tokenEntsoe);
     }
 
 
@@ -59,7 +61,8 @@ public class Co2IntensityCalculator {
 
 
         }
-/*
+        addSwedenNetGeneration(time);
+
         for (int i = 0; i < co2IntensityArr.length; i++){
             System.out.println("Ny lista");
             for(int j = 0; j<map.size();j++){
@@ -69,13 +72,13 @@ public class Co2IntensityCalculator {
         }
 
 
- */
+
 
 
     }
 
 
-    public void getSwedenNetGeneration(LocalDateTime time) {
+    public void addSwedenNetGeneration(LocalDateTime time) {
         TreeMap<LocalDateTime, Double> map = totalGeneration.getTotalGeneration("10YSE-1--------K", time);
         double[] sweGeneration = new double[map.size()];
 
@@ -89,13 +92,16 @@ public class Co2IntensityCalculator {
 
         for (int i = 0; i < countryCodesArr.length - 1; i++) {
             index = 0;
+            /*
             System.out.println("Number of interation " + i);
             System.out.println("-------------------------");
+            */
+
             map = commercialSchedules.getTotalGeneration(countryCodesArr[i], countryCodesArr[countryCodesArr.length - 1], time);
             for (Map.Entry<LocalDateTime, Double> entry : map.entrySet()) {
                 sweTotalExport[index] += entry.getValue();
                 index++;
-                System.out.println(entry.getValue());
+              //  System.out.println(entry.getValue());
             }
 
         }
@@ -117,7 +123,8 @@ public class Co2IntensityCalculator {
         }
 
 
-        for (int i = 0; i < co2IntensityArr.length; i++) {
+        for (int i = 0; i < productionMwArr.length; i++) {
+            System.out.println("Iteration " + i);
             productionMwArr[i][co2IntensityArr.length - 1] = (sweGeneration[i] - sweTotalExport[i]);
         }
 
@@ -133,7 +140,16 @@ public class Co2IntensityCalculator {
         LocalDateTime currTime = time;
         ArrayList<Hour> returnList = new ArrayList<>();
 
-        for(int i = 0;i<productionMwArr.length;i++){
+        for (int i = 0; i < productionMwArr.length; i++) {
+            System.out.println("Nytt land: ");
+            for (int j = 0; j < productionMwArr[0].length; j++) {
+                System.out.println(productionMwArr[j][i]);
+
+            }
+        }
+
+
+        for(int i = 0;i<productionMwArr[0].length;i++){
 
             int totCo2 = 0;
             int totProductionMw = 0;
@@ -141,12 +157,14 @@ public class Co2IntensityCalculator {
             for (int j = 0; j<countryCodesArr.length;j++) {
                 double productionFromCountry = productionMwArr[j][i];
                 totCo2 += productionFromCountry * co2IntensityArr[i];
+                System.out.println("prod from c: "+productionFromCountry);
                 totProductionMw += productionFromCountry;
             }
-            // currTime++
+
             double co2intensityG_kwh = (totCo2/totProductionMw)*1000;
             Hour hourToAdd = new Hour(currTime,co2intensityG_kwh);
             returnList.add(hourToAdd);
+            currTime = currTime.plusHours(1);
         }
         return returnList;
     }

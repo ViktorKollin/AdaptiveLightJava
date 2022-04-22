@@ -19,9 +19,10 @@ public class PlanGeneratorTest {
 
 
     public PlanGeneratorTest(EntsoeDayAhead entsoeDayAhead) {
+
         this.entsoeDayAhead = entsoeDayAhead;
-        // co2calculator = new Co2IntensityCalculator();
-        //todo : change this ( delete whats below)
+        this.co2calculator = new Co2IntensityCalculator();
+        /*todo : change this ( delete whats below)
         co2IntensityList = new ArrayList<>();
         Random rand = new Random();
         for(int i = 0;i<33;i++){
@@ -29,7 +30,7 @@ public class PlanGeneratorTest {
             Hour hour = new Hour(randCo2 );
             co2IntensityList.add(hour);
         }
-
+        */
 
     }
 
@@ -68,9 +69,7 @@ public class PlanGeneratorTest {
 
         if (currentHour == 15) {
             prices = entsoeDayAhead.getCostForDayAhead(date);
-
-
-         // todo:   co2IntensityList = co2calculator.calculateCo2Intensity(date);
+            co2IntensityList = co2calculator.calculateCo2Intensity(date);
             System.out.println("New Plan");
 
         }
