@@ -55,6 +55,7 @@ public class EntsoeTotalGeneration {
             System.out.println("Could not fetch data.");
 
         }
+        cleanTreeMap();
         return totalLoad;
     }
 
@@ -103,6 +104,12 @@ public class EntsoeTotalGeneration {
         }
         reader.close();
 
+    }
+
+    private void cleanTreeMap() {
+        for (int i = 0; i <= 14; i++) {
+            totalLoad.pollFirstEntry();
+        }
     }
 
 

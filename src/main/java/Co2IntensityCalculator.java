@@ -155,18 +155,22 @@ public class Co2IntensityCalculator {
 
         for (int i = 0; i < productionMwArr.length; i++) {
 
-            int totCo2 = 0;
-            int totProductionMw = 0;
+            double totCo2 = 0;
+            double totProductionMw = 0;
+            System.out.println("--------------------------");
 
-            for (int j = 0; j < countryCodesArr.length; j++) {
+            for (int j = 0; j < co2IntensityArr.length; j++) {
                 double productionFromCountry = productionMwArr[i][j];
-                totCo2 += productionFromCountry * co2IntensityArr[j];
+                totCo2 += (productionFromCountry * 1000) * co2IntensityArr[j];
                 System.out.println("prod from c: " + productionFromCountry);
                 totProductionMw += productionFromCountry;
             }
+            System.out.println("----");
+            System.out.println(totCo2);
+            System.out.println(totProductionMw);
 
-            double co2intensityG_kwh = (totCo2/totProductionMw)*1000;
-            Hour hourToAdd = new Hour(currTime,co2intensityG_kwh);
+            double co2intensityG_kwh = (totCo2 / totProductionMw) / 1000;
+            Hour hourToAdd = new Hour(currTime, co2intensityG_kwh);
             returnList.add(hourToAdd);
             currTime = currTime.plusHours(1);
         }

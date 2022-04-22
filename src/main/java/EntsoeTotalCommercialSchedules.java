@@ -54,6 +54,7 @@ public class EntsoeTotalCommercialSchedules {
             System.out.println("Could not fetch data.");
 
         }
+        cleanTreeMap();
         return schedule;
     }
 
@@ -102,5 +103,11 @@ public class EntsoeTotalCommercialSchedules {
         }
         reader.close();
 
+    }
+
+    private void cleanTreeMap() {
+        for (int i = 0; i <= 14; i++) {
+            schedule.pollFirstEntry();
+        }
     }
 }

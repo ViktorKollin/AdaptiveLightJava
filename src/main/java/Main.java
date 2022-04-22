@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
@@ -8,11 +7,11 @@ public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         Co2IntensityCalculator co2 = new Co2IntensityCalculator();
-        LocalDateTime time = LocalDateTime.now().minusDays(1);
+        LocalDateTime time = LocalDateTime.now().minusDays(6);
         ArrayList<Hour> printList = co2.calculateCo2Intensity(time);
         for (Hour h:printList
              ) {
-            System.out.println("Time: "+h.getLocalDateTime().truncatedTo(ChronoUnit.HOURS)+"Co2: "+h.getCo2_gKWh());
+            System.out.println("Time: " + h.getLocalDateTime().truncatedTo(ChronoUnit.HOURS).plusHours(4) + "Co2: " + h.getCo2_gKWh());
 
         }
 
