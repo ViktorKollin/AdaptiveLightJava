@@ -1,4 +1,3 @@
-
 import javax.net.ssl.HttpsURLConnection;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
@@ -11,7 +10,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.TreeMap;
@@ -41,9 +39,8 @@ public class EntsoeDayAhead {
 
     public TreeMap<LocalDateTime, Double> getCostForDayAhead(LocalDateTime time) {
         prices.clear();
-        ZonedDateTime timeLocal = time.atZone(TimeUtils.UTC).withZoneSameInstant(timezone);
-        final LocalDateTime dayStart = timeLocal.truncatedTo(ChronoUnit.DAYS).plusHours(15).toLocalDateTime();
-        final LocalDateTime dayEnd = timeLocal.truncatedTo(ChronoUnit.DAYS).plus(1, ChronoUnit.DAYS).toLocalDateTime();
+        final LocalDateTime dayStart = time.truncatedTo(ChronoUnit.DAYS).plusHours(15);
+        final LocalDateTime dayEnd = time.truncatedTo(ChronoUnit.DAYS).plus(1, ChronoUnit.DAYS);
 
         getCostFromEntsoe(dayStart, dayEnd);
         cleanTreeMap();

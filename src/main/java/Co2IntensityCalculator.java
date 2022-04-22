@@ -29,7 +29,7 @@ public class Co2IntensityCalculator {
     public void populateIntensityArr(LocalDateTime time) {
         int index2 = 0;
         //get value from enstoe
-        TreeMap<LocalDateTime, Double> map = commercialSchedules.getTotalGeneration(countryCodesArr[countryCodesArr.length - 1], countryCodesArr[0]);
+        TreeMap<LocalDateTime, Double> map = commercialSchedules.getTotalGeneration(countryCodesArr[countryCodesArr.length - 1], countryCodesArr[0], time);
 
         // initiate 2-dim array with number of hours from entsoe and number of counties
         productionMwArr = new double[map.size()][co2IntensityArr.length - 1];
@@ -44,12 +44,12 @@ public class Co2IntensityCalculator {
             //keeps track on index in array for nex loop
             index2 = i;
 
-            map = commercialSchedules.getTotalGeneration(countryCodesArr[countryCodesArr.length - 1], countryCodesArr[i + 1]);
+            map = commercialSchedules.getTotalGeneration(countryCodesArr[countryCodesArr.length - 1], countryCodesArr[i + 1], time);
         }
 
 
         for (int i = 0; i < regionCodeArr.length - 1; i++) {
-            map = commercialSchedules.getTotalGeneration(regionCodeArr[regionCodeArr.length - 1], regionCodeArr[i]);
+            map = commercialSchedules.getTotalGeneration(regionCodeArr[regionCodeArr.length - 1], regionCodeArr[i], time);
             int index = 0;
             for (Map.Entry<LocalDateTime, Double> entry : map.entrySet()) {
                 productionMwArr[index][i + (index2 + 1)] = entry.getValue();
@@ -74,8 +74,8 @@ public class Co2IntensityCalculator {
     }
 
 
-    public int[] getSwedenNetGeneration() {
-        TreeMap<LocalDateTime, Double> map = totalGeneration.getTotalGeneration("10YSE-1--------K");
+    public int[] getSwedenNetGeneration(LocalDateTime time) {
+        TreeMap<LocalDateTime, Double> map = totalGeneration.getTotalGeneration("10YSE-1--------K", time);
         double[] sweGeneration = new double[map.size()];
 
         int index = 0;
@@ -89,21 +89,30 @@ public class Co2IntensityCalculator {
 
         for (int i = 0; i < countryCodesArr.length - 1; i++) {
             index = 0;
-            map = commercialSchedules.getTotalGeneration(countryCodesArr[i], countryCodesArr[countryCodesArr.length - 1]);
+            System.out.println("Number of interation " + i);
+            System.out.println("-------------------------");
+            map = commercialSchedules.getTotalGeneration(countryCodesArr[i], countryCodesArr[countryCodesArr.length - 1], time);
             for (Map.Entry<LocalDateTime, Double> entry : map.entrySet()) {
                 sweTotalExport[index] += entry.getValue();
                 index++;
+                System.out.println(entry.getValue());
             }
 
         }
         for (int i = 0; i < regionCodeArr.length - 1; i++) {
-            map = commercialSchedules.getTotalGeneration(regionCodeArr[i], regionCodeArr[regionCodeArr.length - 1]);
+            map = commercialSchedules.getTotalGeneration(regionCodeArr[i], regionCodeArr[regionCodeArr.length - 1], time);
             index = 0;
             for (Map.Entry<LocalDateTime, Double> entry : map.entrySet()) {
                 sweTotalExport[index] += entry.getValue();
                 index++;
             }
 
+
+        }
+
+        for (double d : sweTotalExport
+        ) {
+            System.out.println(d);
 
         }
 

@@ -27,8 +27,8 @@ public class EntsoeTotalGeneration {
     }
 
 
-    public TreeMap getTotalGeneration(String zone) {
-        LocalDateTime time = LocalDateTime.now();
+    public TreeMap getTotalGeneration(String zone, LocalDateTime time) {
+        totalLoad.clear();
 
         final LocalDateTime periodStart = time.truncatedTo(ChronoUnit.DAYS);
         final LocalDateTime periodEnd = time.truncatedTo(ChronoUnit.DAYS).plusDays(1);
