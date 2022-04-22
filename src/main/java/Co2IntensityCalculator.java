@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -32,7 +33,7 @@ public class Co2IntensityCalculator {
         TreeMap<LocalDateTime, Double> map = commercialSchedules.getTotalGeneration(countryCodesArr[countryCodesArr.length - 1], countryCodesArr[0], time);
 
         // initiate 2-dim array with number of hours from entsoe and number of counties
-        productionMwArr = new double[map.size()][co2IntensityArr.length - 1];
+        productionMwArr = new double[map.size()][co2IntensityArr.length];
 
         for (int i = 0; i < countryCodesArr.length - 1; i++) {
             int index = 0;
@@ -74,7 +75,7 @@ public class Co2IntensityCalculator {
     }
 
 
-    public int[] getSwedenNetGeneration(LocalDateTime time) {
+    public void getSwedenNetGeneration(LocalDateTime time) {
         TreeMap<LocalDateTime, Double> map = totalGeneration.getTotalGeneration("10YSE-1--------K", time);
         double[] sweGeneration = new double[map.size()];
 
@@ -116,17 +117,15 @@ public class Co2IntensityCalculator {
         }
 
 
-        int[] sweNetGeneration = new int[map.size()];
-        for (int i = 0; i < sweNetGeneration.length; i++) {
-            sweNetGeneration[i] = (int) (sweGeneration[i] - sweTotalExport[i]);
+        for (int i = 0; i < co2IntensityArr.length; i++) {
+            productionMwArr[i][co2IntensityArr.length - 1] = (sweGeneration[i] - sweTotalExport[i]);
         }
-        return sweNetGeneration;
 
 
     }
 
 
-    /*
+
     public ArrayList<Hour> calculateCo2Intensity(LocalDateTime time){
 
         populateIntensityArr(time);
@@ -139,9 +138,9 @@ public class Co2IntensityCalculator {
             int totCo2 = 0;
             int totProductionMw = 0;
 
-            for (int j = 0; j<countryCodesArr.length;j++){
-                int productionFromCountry = productionMwArr[j][i];
-                totCo2 += productionFromCountry * co2IntensityArr[j];
+            for (int j = 0; j<countryCodesArr.length;j++) {
+                double productionFromCountry = productionMwArr[j][i];
+                totCo2 += productionFromCountry * co2IntensityArr[i];
                 totProductionMw += productionFromCountry;
             }
             // currTime++
@@ -152,7 +151,6 @@ public class Co2IntensityCalculator {
         return returnList;
     }
 
-     */
 
 }
 
