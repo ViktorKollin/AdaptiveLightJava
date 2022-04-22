@@ -1,12 +1,13 @@
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        Co2IntensityCalculator co2 = new Co2IntensityCalculator();
+       /* Co2IntensityCalculator co2 = new Co2IntensityCalculator();
         LocalDateTime time = LocalDateTime.now().minusDays(6);
         ArrayList<Hour> printList = co2.calculateCo2Intensity(time);
         for (Hour h:printList
@@ -15,16 +16,16 @@ public class Main {
 
         }
 
-        /*
+        */
         EntsoeDayAhead dayAhead = new EntsoeDayAhead("10Y1001A1001A47J", ZoneId.of("Europe/Stockholm"), "6d3ed710-5fbf-4341-9535-e3fe29fc72fa");
 
 
         SimulationController sim = new SimulationController(dayAhead);
         sim.populateDays();
         sim.setPpfdAndLed();
-        sim.runSimulation();
+        sim.runSimulation(0);
         sim.printDays();
-
+/*
 
         EntsoeTotalCommercialSchedules totalCommercialSchedules = new EntsoeTotalCommercialSchedules("6d3ed710-5fbf-4341-9535-e3fe29fc72fa");
         EntsoeTotalGeneration totalGeneration = new EntsoeTotalGeneration("6d3ed710-5fbf-4341-9535-e3fe29fc72fa");

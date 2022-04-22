@@ -152,6 +152,7 @@ public class Co2IntensityCalculator {
 
      */
 
+        System.out.println("prod.length: "+productionMwArr.length);
 
         for (int i = 0; i < productionMwArr.length; i++) {
 

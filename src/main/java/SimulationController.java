@@ -85,7 +85,7 @@ public class SimulationController {
 
     }
 
-    public void runSimulation() {
+    public void runSimulation(double co2Weight) {
         boolean start = true;
         boolean start2 = false;
         LocalDateTime daySimulation = LocalDateTime.of(2022, 02, 15, 00, 00);
@@ -108,12 +108,12 @@ public class SimulationController {
                 if (start2) {
                     if (start) {
                        // todo: tempHour = planGenerator.generatePlan(60, tempHour.getHourOfDay(), (tempHour.getDliReached() > dliGoal), daySimulation);
-                        tempHour = planGeneratorTest.generatePlan(60, tempHour.getHourOfDay(), (tempHour.getDliReached() > dliGoal), daySimulation,0.5);
+                        tempHour = planGeneratorTest.generatePlan(60, tempHour.getHourOfDay(), (tempHour.getDliReached() > dliGoal), daySimulation,co2Weight);
                         start = false;
                         // all other days
                     } else {
                        // todo: tempHour = planGenerator.generatePlan(planGenerator.getBatteryPercent(daySimulation), tempHour.getHourOfDay(), (tempHour.getDliReached() > dliGoal), daySimulation);
-                        tempHour = planGeneratorTest.generatePlan(planGeneratorTest.getBatteryPercent(daySimulation), tempHour.getHourOfDay(), (tempHour.getDliReached() > dliGoal), daySimulation,0.5);
+                        tempHour = planGeneratorTest.generatePlan(planGeneratorTest.getBatteryPercent(daySimulation), tempHour.getHourOfDay(), (tempHour.getDliReached() > dliGoal), daySimulation,co2Weight);
                     }
                     days.get(i).get(hour).setPrice(tempHour.getPrice());
                     days.get(i).get(hour).setCharge(tempHour.isCharge());
@@ -173,8 +173,8 @@ public class SimulationController {
 
                 }
                 if(hour>04 && hour<21){
-                    noBatteryPrice += tempHour.getPrice()*ledPowerW*1031/1000000;
-                    dailyNoBatPrice += tempHour.getPrice()*ledPowerW*1031/1000000;
+                    noBatteryPrice += (tempHour.getPrice()*ledPowerW*1031)/1000000;
+                    dailyNoBatPrice += (tempHour.getPrice()*ledPowerW*1031)/1000000;
                     dailyNoBatCo2 += (tempHour.getCo2_gKWh()*ledPowerW)/1000;
                     totNoBatteryCo2 += (tempHour.getCo2_gKWh()*ledPowerW)/1000;
 
@@ -201,15 +201,13 @@ public class SimulationController {
             System.out.println("gCO2: Prototype: "+dailyGCo2+" No Battery: "+dailyNoBatCo2);
             System.out.println("PRICE (öre): Prototype: "+dailyPrice+" No Battery: "+dailyNoBatPrice);
         }
-        totPriceOEre /= 1000;
-        totPriceOEre /= 0.97;
-        noBatteryPrice /= 1000;
-        noBattLux /= 1000;
 
-        System.out.println("battery price: " +String.format("%02.2f",totPriceOEre));
-        System.out.println("No battery price: "+String.format("%02.2f",noBatteryPrice));
-        System.out.println("No battery, smart: "+String.format("%02.2f",noBattLux));
-        System.out.println("g C02 prototype: "+String.format("%02.2f",totCo2));
-        System.out.println("g CO2 No Battery: "+String.format("%02.2f",totNoBatteryCo2));
+        totPriceOEre /= 0.97;
+
+        System.out.println("battery price: " +String.format("%02.4f",totPriceOEre));
+        System.out.println("No battery price: "+String.format("%02.4f",noBatteryPrice));
+        System.out.println("No battery, smart: "+String.format("%02.4f",noBattLux));
+        System.out.println("g C02 prototype: "+String.format("%02.4f",totCo2));
+        System.out.println("g CO2 No Battery: "+String.format("%02.4f",totNoBatteryCo2));
     }
 }

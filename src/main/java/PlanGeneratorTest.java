@@ -176,7 +176,7 @@ public class PlanGeneratorTest {
 
             if (dailyPlan.get(i).isCharge()) {
 
-                batteryNow += 13;
+                batteryNow += 18;
 
                 if(batteryNow > 100){
                     batteryNow = 100;
@@ -185,7 +185,7 @@ public class PlanGeneratorTest {
                 dailyPlan.get(i + 1).setBatteryPercent(batteryNow);
 
             } else if (dailyPlan.get(i).isLedOn()) {
-                batteryNow -= 4;
+                batteryNow -= 2;
                 dailyPlan.get(i + 1).setBatteryPercent(batteryNow);
             } else {
                 dailyPlan.get(i + 1).setBatteryPercent(batteryNow);
