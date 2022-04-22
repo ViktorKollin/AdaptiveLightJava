@@ -21,7 +21,7 @@ public class PlanGeneratorTest {
     public PlanGeneratorTest(EntsoeDayAhead entsoeDayAhead) {
         this.entsoeDayAhead = entsoeDayAhead;
         // co2calculator = new Co2IntensityCalculator();
-        //todo : change this
+        //todo : change this ( delete whats below)
         co2IntensityList = new ArrayList<>();
         Random rand = new Random();
         for(int i = 0;i<33;i++){
@@ -139,7 +139,7 @@ public class PlanGeneratorTest {
         }
         /////// PRINTS FINAL PLAN AFTER RECURSION ENDS /////////////////
 
-          printPlan();
+         // printPlan();
 
         return dailyPlan.get(retIndex);
 
@@ -152,9 +152,10 @@ public class PlanGeneratorTest {
         int batteryNow = battery;
         //// Debug print to not get stack overflow when endless loop
         System.out.println(iteration++);
+       // printPlan();
 
 
-        if (iteration == 400) {
+        if (iteration == 700) {
             System.exit(0);
         }
 
