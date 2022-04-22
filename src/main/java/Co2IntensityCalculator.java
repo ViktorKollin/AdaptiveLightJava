@@ -62,7 +62,7 @@ public class Co2IntensityCalculator {
 
         }
         addSwedenNetGeneration(time);
-
+/*
         for (int i = 0; i < co2IntensityArr.length; i++){
             System.out.println("Ny lista");
             for(int j = 0; j<map.size();j++){
@@ -70,6 +70,8 @@ public class Co2IntensityCalculator {
 
             }
         }
+
+ */
 
 
 
@@ -115,16 +117,16 @@ public class Co2IntensityCalculator {
 
 
         }
-
+/*
         for (double d : sweTotalExport
         ) {
             System.out.println(d);
 
         }
 
+ */
 
         for (int i = 0; i < productionMwArr.length; i++) {
-            System.out.println("Iteration " + i);
             productionMwArr[i][co2IntensityArr.length - 1] = (sweGeneration[i] - sweTotalExport[i]);
         }
 
@@ -139,25 +141,27 @@ public class Co2IntensityCalculator {
 
         LocalDateTime currTime = time;
         ArrayList<Hour> returnList = new ArrayList<>();
-
+    /*
         for (int i = 0; i < productionMwArr.length; i++) {
-            System.out.println("Nytt land: ");
+            System.out.println("Ny timme: ");
             for (int j = 0; j < productionMwArr[0].length; j++) {
-                System.out.println(productionMwArr[j][i]);
+                System.out.println(productionMwArr[i][j]);
 
             }
         }
 
+     */
 
-        for(int i = 0;i<productionMwArr[0].length;i++){
+
+        for (int i = 0; i < productionMwArr.length; i++) {
 
             int totCo2 = 0;
             int totProductionMw = 0;
 
-            for (int j = 0; j<countryCodesArr.length;j++) {
-                double productionFromCountry = productionMwArr[j][i];
-                totCo2 += productionFromCountry * co2IntensityArr[i];
-                System.out.println("prod from c: "+productionFromCountry);
+            for (int j = 0; j < countryCodesArr.length; j++) {
+                double productionFromCountry = productionMwArr[i][j];
+                totCo2 += productionFromCountry * co2IntensityArr[j];
+                System.out.println("prod from c: " + productionFromCountry);
                 totProductionMw += productionFromCountry;
             }
 
